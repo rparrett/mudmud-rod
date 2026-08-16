@@ -1,0 +1,10 @@
+(
+    name: Some("Press Enter prompt"),
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "\\[Press Enter\\]|Press \\[ENTER\\]",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)

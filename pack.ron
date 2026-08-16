@@ -1,0 +1,7 @@
+(
+    format_version: 1,
+    id: "net.robparrett.mudmud-rod",
+    name: "Realms of Despair",
+    version: "0.0.1",
+    description: "Common automation for Realms of Despair",
+)

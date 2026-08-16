@@ -1,0 +1,6 @@
+(
+    name: Some("Echo on connect"),
+    kind: Event((
+        event_names: ["system.connected"],
+    )),
+)

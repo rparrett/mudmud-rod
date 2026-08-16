@@ -1,0 +1,5 @@
+(
+    name: Some("mudmud-rod initialization"),
+    priority: 1,
+    kind: Script(()),
+)
