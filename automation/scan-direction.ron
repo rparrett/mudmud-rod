@@ -1,0 +1,11 @@
+(
+    name: Some("Track scan direction"),
+    priority: 3,
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "^Scanning\\s(\\w+)\\.\\.\\.$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)

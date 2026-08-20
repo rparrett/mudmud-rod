@@ -3,3 +3,8 @@ if rod._room_tracking then
 
     rod._room_tracking = false
 end
+
+if rod._scan_direction then
+    rod._scan_direction = nil
+    emit("rod.scan")
+end

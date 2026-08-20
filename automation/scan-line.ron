@@ -1,0 +1,11 @@
+(
+    name: Some("Collect scan lines"),
+    priority: 6,
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "^.*$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)
