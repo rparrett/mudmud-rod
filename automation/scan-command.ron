@@ -1,0 +1,10 @@
+(
+    name: Some("Remember scan command"),
+    kind: Line((
+        source: UserCommand,
+        kind: Regex,
+        pattern: "^scan\\s\\w+$",
+        case_insensitive: false,
+        pass_through: true,
+    )),
+)

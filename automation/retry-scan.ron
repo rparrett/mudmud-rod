@@ -1,0 +1,10 @@
+(
+    name: Some("Retry interrupted scan"),
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "^You try, but stop scanning around as your vision blurs\\.$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)
