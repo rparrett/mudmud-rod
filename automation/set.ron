@@ -1,0 +1,10 @@
+(
+    name: Some("Configure rod settings"),
+    kind: Line((
+        source: UserCommand,
+        kind: Regex,
+        pattern: "^set(?:\\s+(\\w+)(?:\\s+(.+))?)?$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)
