@@ -1,0 +1,6 @@
+(
+    name: Some("Report scan result"),
+    kind: Event((
+        event_names: ["rod.scan"],
+    )),
+)
