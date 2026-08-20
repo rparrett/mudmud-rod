@@ -1,3 +1,3 @@
-if rod.scan_command then
-    send(rod.scan_command)
+if rod._scan_command then
+    send(rod._scan_command)
 end

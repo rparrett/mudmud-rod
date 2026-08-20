@@ -1,1 +1,1 @@
-rod.scan_command = line
+rod._scan_command = line
