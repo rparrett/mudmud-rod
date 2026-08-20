@@ -21,6 +21,23 @@
 
 ---@class MudmudAnsiColor
 
+---@alias MudmudRichTextAlign "left"|"right"|"center"
+---@alias MudmudRichTextPart string|MudmudRichTextDescriptor|MudmudRichText
+
+---@class MudmudRichText
+---@field [integer] MudmudRichTextPart
+
+---@class MudmudRichTextDescriptor
+---@field text string Literal text to display.
+---@field foreground? MudmudAnsiColor Foreground color.
+---@field background? MudmudAnsiColor Background color.
+---@field bold? boolean Render with bold weight.
+---@field dim? boolean Render with reduced intensity.
+---@field italic? boolean Render in italics.
+---@field underline? boolean Underline the text.
+---@field width? integer Exact terminal-cell width; content is truncated and padded as needed.
+---@field align? MudmudRichTextAlign Alignment within width. Defaults to left.
+
 ---@class MudmudAnsi
 ---@field default MudmudAnsiColor Terminal default color.
 ---@field black MudmudAnsiColor ANSI index 0.
@@ -227,11 +244,15 @@ function send(text) end
 ---@param text string
 function input(text) end
 
----Append plain text to the connection output.
----@param text string
-function echo(text) end
+---Append content exactly as supplied without adding a newline.
+---@param value? MudmudRichTextPart
+function echo(value) end
 
----Append debug representations of arbitrary values to the connection output.
+---Append content followed by exactly one newline.
+---@param value? MudmudRichTextPart
+function echoln(value) end
+
+---Append debug representations of arbitrary values followed by one newline.
 ---@param ... any
 function display(...) end
 

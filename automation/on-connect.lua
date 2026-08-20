@@ -1,1 +1,8 @@
-echo("\n[mudmud-rod] Connected!\n")
+echoln({
+    "\n[",
+    {
+        text = "rod",
+        foreground = ansi.bright_magenta
+    },
+    "] Connected!"
+})
