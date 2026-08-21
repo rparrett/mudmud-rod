@@ -1,15 +1,32 @@
-function rod.move(path, dir, timeout)
-    path:input(dir)
-    path:race(function(move)
-        move:event("rod.room")
-        move:after(timeout or 5, function()
-            echoln({
-                "[",
-                { text = "rod", foreground = ansi.bright_magenta },
-                "] Move ",
-                { text = dir, foreground = ansi.bright_cyan },
-                " timed out; continuing.",
+function rod.move(path, direction, timeout)
+    timeout = timeout or 5
+
+    path:retry(function(attempt, retry)
+        attempt:input(direction)
+
+        attempt:race(function(first)
+            first:event("rod.room", {
+                handler = function()
+                    retry:done()
+                end,
             })
+
+            first:line("No way!  You are still fighting!", function()
+                rod.echoln({
+                    "Movement blocked; waiting to retry ",
+                    { text = direction, foreground = ansi.bright_cyan },
+                    ".",
+                })
+            end)
+
+            first:after(timeout, function()
+                retry:again()
+            end)
+        end)
+
+        attempt:race(function(first)
+            first:event("rod.fight.end")
+            first:after(3)
         end)
     end)
 end
