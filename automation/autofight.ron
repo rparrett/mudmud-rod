@@ -1,0 +1,6 @@
+(
+    name: Some("Autofight on wait time"),
+    kind: Event((
+        event_names: ["msdp.WAIT_TIME"],
+    )),
+)

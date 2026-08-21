@@ -1,0 +1,6 @@
+(
+    name: Some("Autofight fallback"),
+    kind: Timer((
+        interval_ms: 250,
+    )),
+)

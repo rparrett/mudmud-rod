@@ -1,0 +1,5 @@
+(
+    name: Some("Container helpers"),
+    priority: 2,
+    kind: Script(()),
+)

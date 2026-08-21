@@ -1,4 +1,6 @@
 local definitions = {
+    { name = "sanc", kind = "boolean", usage = "<on|off>", description = "Auto-quaff sanctuary potions" },
+    { name = "sanckw", kind = "string", usage = "<text|unset>", description = "Keyword for sanctuary potions" },
     { name = "quaff", kind = "boolean", usage = "<on|off>", description = "Auto-quaff" },
     { name = "quaffkw", kind = "string", usage = "<text|unset>", description = "Keyword for healing potions" },
     { name = "quaffthresh", kind = "number", usage = "<number>", description = "Quaff when this much HP is missing" },

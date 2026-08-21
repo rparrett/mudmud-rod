@@ -1,0 +1,5 @@
+(
+    name: Some("Item keyword catalog"),
+    priority: 2,
+    kind: Script(()),
+)

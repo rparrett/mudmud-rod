@@ -1,0 +1,6 @@
+(
+    name: Some("Track affects"),
+    kind: Event((
+        event_names: ["msdp.AFFECTS"],
+    )),
+)
