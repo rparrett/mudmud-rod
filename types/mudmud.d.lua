@@ -124,6 +124,15 @@ function MudmudRaceBuilder:event(name, options) end
 ---@param handler? fun()
 function MudmudRaceBuilder:after(seconds, handler) end
 
+---@class MudmudRetryControl
+local MudmudRetryControl = {}
+
+---Abandon the rest of this attempt and begin the next attempt immediately.
+function MudmudRetryControl:again() end
+
+---Complete this retry block and continue with the enclosing path.
+function MudmudRetryControl:done() end
+
 ---@class MudmudSequencePath
 local MudmudSequencePath = {}
 
@@ -179,6 +188,10 @@ function MudmudSequencePath:input_until(options) end
 ---@param options MudmudSendUntilOptions
 function MudmudSequencePath:send_until(options) end
 
+---Repeat a group of steps until its controller completes it.
+---@param builder fun(attempt: MudmudSequencePath, retry: MudmudRetryControl)
+function MudmudSequencePath:retry(builder) end
+
 ---@alias MudmudSequenceState
 ---| "idle"
 ---| "running"
@@ -199,6 +212,7 @@ function MudmudSequencePath:send_until(options) end
 ---| "race"
 ---| "input_until"
 ---| "send_until"
+---| "retry"
 
 ---@class MudmudSequenceStatus
 ---@field state MudmudSequenceState
@@ -206,6 +220,7 @@ function MudmudSequencePath:send_until(options) end
 ---@field step? integer One-based current step.
 ---@field step_count integer
 ---@field step_kind? MudmudSequenceStepKind
+---@field attempt? integer Current retry attempt, starting at one.
 ---@field error? string
 
 ---@class MudmudSequencer
