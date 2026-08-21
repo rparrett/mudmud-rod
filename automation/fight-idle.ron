@@ -1,0 +1,6 @@
+(
+    name: Some("Detect idle combat"),
+    kind: Timer((
+        interval_ms: 250,
+    )),
+)

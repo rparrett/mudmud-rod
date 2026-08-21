@@ -1,0 +1,6 @@
+(
+    name: Some("Track fights"),
+    kind: Event((
+        event_names: ["msdp.OPPONENT_NAME"],
+    )),
+)
