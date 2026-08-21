@@ -34,7 +34,7 @@ rod.item_keywords["a custom leather bag"] = "leather-bag"
 rod.containers.main = "a custom leather bag"
 ```
 
-### Rod settings
+### RoD settings
 
 The current defaults are:
 
