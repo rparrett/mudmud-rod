@@ -5,6 +5,7 @@ if rod._room_tracking then
 end
 
 if rod._scan_direction then
+    local scan_result = rod.scan_result()
     rod._scan_direction = nil
-    emit("rod.scan")
+    emit("rod.scan", scan_result)
 end

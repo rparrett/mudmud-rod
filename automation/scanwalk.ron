@@ -1,0 +1,10 @@
+(
+    name: Some("Scan walk"),
+    kind: Line((
+        source: UserCommand,
+        kind: Regex,
+        pattern: "^scanwalk(?:\\s+(.+))?$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)

@@ -1,0 +1,10 @@
+(
+    name: Some("Walk a direction list"),
+    kind: Line((
+        source: UserCommand,
+        kind: Regex,
+        pattern: "^walk\\s+(.+)$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)
