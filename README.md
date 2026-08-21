@@ -1,6 +1,6 @@
 # mudmud-rod
 
-An automation pack for Realms of Despair.
+A `mudmud` automation pack for Realms of Despair.
 
 ## Setup and defaults
 
