@@ -346,15 +346,27 @@ function MudmudTime.monotonic() end
 ---@class MudmudConnection
 local MudmudConnection = {}
 
+---Request a connection when the session is disconnected.
+---The request is asynchronous; observe system events or a later info snapshot for completion.
+function MudmudConnection.connect() end
+
 ---Return whether the profile is currently connected to its MUD.
 ---@return boolean
 ---@nodiscard
 function MudmudConnection.connected() end
 
+---Request that the current connection or connection attempt stop.
+---The request is asynchronous and does not close the profile session or GUI tab.
+function MudmudConnection.disconnect() end
+
 ---Return a snapshot of the current connection metadata and status.
 ---@return MudmudConnectionInfo
 ---@nodiscard
 function MudmudConnection.info() end
+
+---Request a fresh connection cycle.
+---An active connection is disconnected first; a disconnected session behaves like connect().
+function MudmudConnection.reconnect() end
 
 ---Send text directly to the MUD, bypassing input triggers.
 ---@param text string
