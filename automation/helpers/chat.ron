@@ -1,0 +1,5 @@
+(
+    name: Some("Chat helpers"),
+    priority: 2,
+    kind: Script(()),
+)

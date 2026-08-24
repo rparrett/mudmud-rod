@@ -1,0 +1,11 @@
+(
+    name: Some("Capture directed speech"),
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "(?:^|>)You (?<msgtype>say) to (?<char>\\w+), '(?<msg>.+)'$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+    lua: Some("rod.capture_chat()"),
+)

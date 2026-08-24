@@ -1,0 +1,5 @@
+(
+    name: Some("RoD screen layout"),
+    priority: 2,
+    kind: Script(()),
+)

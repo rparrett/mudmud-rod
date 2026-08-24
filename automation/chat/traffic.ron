@@ -1,0 +1,11 @@
+(
+    name: Some("Capture traffic chat"),
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "(?:^|>)(?<char>\\w+) (?<msgtype>openly traffics?):  (?<msg>.+)$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+    lua: Some("rod.capture_chat()"),
+)

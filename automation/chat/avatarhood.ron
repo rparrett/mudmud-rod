@@ -1,0 +1,11 @@
+(
+    name: Some("Capture Avatarhood"),
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "(?:^|>)(?<char>\\w+) has just (?<msgtype>achieved) Avatarhood!$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+    lua: Some("rod.capture_chat()"),
+)

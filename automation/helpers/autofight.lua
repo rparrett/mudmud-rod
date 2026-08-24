@@ -16,7 +16,7 @@ function rod.autofight()
         return
     end
 
-    rod._last_autofight_at = now()
+    rod._last_autofight_at = time.monotonic()
 
     local missing_health = health_max - health
     local missing_mana = mana_max - mana

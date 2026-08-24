@@ -1,0 +1,12 @@
+(
+    name: Some("Capture Avatar chat"),
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "(?<char>\\w+):\\s\\S.*$",
+        case_insensitive: false,
+        foreground: Some(Ansi256(11)),
+        pass_through: false,
+    )),
+    lua: Some("rod.capture_chat()"),
+)

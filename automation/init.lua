@@ -6,6 +6,9 @@ rod.settings = rod.settings or {}
 rod.containers = rod.containers or {}
 rod.affects_by_name = rod.affects_by_name or {}
 
+-- Monotonic timestamps are meaningful only within the current Lua runtime.
+rod._last_send_at = time.monotonic()
+
 rod.containers.main = rod.containers.main or "Dracocutis of the Isorla"
 
 if rod.settings.sanc == nil then rod.settings.sanc = true end

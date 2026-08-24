@@ -1,0 +1,11 @@
+(
+    name: Some("Capture outgoing tells"),
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "(?:^|>)(?<char>You) (?<msgtype>tell) (?<recipient>\\w+) '(?<msg>.+)'$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+    lua: Some("rod.capture_chat()"),
+)

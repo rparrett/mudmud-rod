@@ -38,6 +38,64 @@
 ---@field width? integer Exact terminal-cell width; content is truncated and padded as needed.
 ---@field align? MudmudRichTextAlign Alignment within width. Defaults to left.
 
+---@alias MudmudPlatform "ios"|"macos"|"windows"|"linux"|"android"|"unknown"
+---@alias MudmudCapability "screen_layout"
+
+---@class MudmudTerminalBufferPane
+---@field buffer string Stable named buffer to display. Every layout must contain main exactly once.
+---@field wrap? boolean Whether text wraps. Defaults to the main-terminal setting for main and true otherwise.
+---@field scroll_x? boolean Whether horizontal overflow scrolls instead of clipping. Defaults to true.
+---@field scroll_y? boolean Whether vertical overflow scrolls instead of clipping. Defaults to true.
+---@field font_size? integer Absolute font size in CSS pixels from 7 through 28. Defaults to the global terminal size.
+---@field scrollback_lines? integer Positive per-buffer scrollback limit.
+
+---@class MudmudTerminalSplit
+---@field id? string Stable divider identifier used for persisted resizing.
+---@field split "columns"|"rows" Left/right columns or top/bottom rows.
+---@field ratio? number Fraction assigned to first, greater than zero and less than one. Defaults to 0.5.
+---@field first MudmudTerminalLayoutNode
+---@field second MudmudTerminalLayoutNode
+
+---@alias MudmudTerminalLayoutNode MudmudTerminalBufferPane|MudmudTerminalSplit
+
+---@class MudmudTerminalLayout
+---@field id string Stable identifier for the complete layout.
+---@field root MudmudTerminalLayoutNode
+
+---@class MudmudTerminalBuffer
+local MudmudTerminalBuffer = {}
+
+---Append content exactly as supplied without adding a newline.
+---@param value? MudmudRichTextPart
+function MudmudTerminalBuffer:echo(value) end
+
+---Append content followed by exactly one newline.
+---@param value? MudmudRichTextPart
+function MudmudTerminalBuffer:echoln(value) end
+
+---Atomically replace the buffer contents.
+---@param value MudmudRichTextPart
+function MudmudTerminalBuffer:set(value) end
+
+---Atomically remove all buffer contents.
+function MudmudTerminalBuffer:clear() end
+
+---@class MudmudScreen
+local MudmudScreen = {}
+
+---Return a handle to a named connection-local terminal buffer.
+---@param name string
+---@return MudmudTerminalBuffer
+---@nodiscard
+function MudmudScreen.buffer(name) end
+
+---Arrange named buffers into a split screen layout.
+---The definition is validated on every frontend. Returns false without acting when unsupported.
+---@param layout MudmudTerminalLayout
+---@return boolean accepted
+---@nodiscard
+function MudmudScreen.set_layout(layout) end
+
 ---@class MudmudAnsi
 ---@field default MudmudAnsiColor Terminal default color.
 ---@field black MudmudAnsiColor ANSI index 0.
@@ -251,6 +309,53 @@ function MudmudSequencer.restart() end
 ---@nodiscard
 function MudmudSequencer.status() end
 
+---@class MudmudTime
+local MudmudTime = {}
+
+---Return Unix epoch time in fractional seconds.
+---This is wall-clock time and may jump when the system clock is adjusted.
+---@return number seconds
+---@nodiscard
+function MudmudTime.now() end
+
+---Format a time using Lua's os.date/strftime conversion rules.
+---Formatting uses local time unless format begins with `!`, which selects UTC.
+---The timestamp defaults to the current time; fractional seconds are rounded down.
+---@param format string
+---@param timestamp? number Unix epoch seconds.
+---@return string
+---@nodiscard
+function MudmudTime.format(format, timestamp) end
+
+---Return fractional monotonic seconds from an unspecified origin.
+---Only differences between values from the current Lua runtime are meaningful.
+---@return number seconds
+---@nodiscard
+function MudmudTime.monotonic() end
+
+---@alias MudmudConnectionStatus "preparing_automation"|"connecting"|"connected"|"disconnecting"|"disconnected"|"automation_failed"
+
+---@class MudmudConnectionInfo
+---@field host string Current configured host.
+---@field port integer Current configured port.
+---@field mud string Current MUD name.
+---@field profile string Current profile name.
+---@field status MudmudConnectionStatus Current session status.
+---@field connected boolean Whether status is exactly `connected`.
+
+---@class MudmudConnection
+local MudmudConnection = {}
+
+---Return whether the profile is currently connected to its MUD.
+---@return boolean
+---@nodiscard
+function MudmudConnection.connected() end
+
+---Return a snapshot of the current connection metadata and status.
+---@return MudmudConnectionInfo
+---@nodiscard
+function MudmudConnection.info() end
+
 ---Send text directly to the MUD, bypassing input triggers.
 ---@param text string
 function send(text) end
@@ -276,10 +381,17 @@ function display(...) end
 ---@param payload? table<string, any>
 function emit(name, payload) end
 
----Return Unix epoch time in fractional seconds.
----@return number seconds
+---Return the current native target platform.
+---@return MudmudPlatform
 ---@nodiscard
-function now() end
+function platform() end
+
+---Return whether the current frontend supports a precise optional facility.
+---Unknown capability names return false.
+---@param capability MudmudCapability
+---@return boolean
+---@nodiscard
+function supports(capability) end
 
 ---Visible terminal-control-stripped text for the current line match.
 ---@type string
@@ -307,6 +419,15 @@ ansi = {}
 
 ---@type MudmudSequencer
 seq = {}
+
+---@type MudmudTime
+time = {}
+
+---@type MudmudConnection
+connection = {}
+
+---@type MudmudScreen
+screen = {}
 
 ---Remove Unicode whitespace from both ends of a string.
 ---@param value string

@@ -13,7 +13,7 @@ if current == previous then
 end
 
 if current == "" then
-    local ended_at = now()
+    local ended_at = time.monotonic()
     local payload = {
         opponent = previous,
     }
@@ -57,7 +57,7 @@ if current == "" then
     rod._fight_started_exp = nil
     rod._fight_idle_at = ended_at + 6
 elseif previous == "" then
-    rod._fight_started_at = now()
+    rod._fight_started_at = time.monotonic()
     rod._fight_started_exp = tonumber(msdp.EXPERIENCE)
 
     emit("rod.fight.start", {

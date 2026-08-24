@@ -1,0 +1,11 @@
+(
+    name: Some("Capture chat"),
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "(?:^|>)(?<char>\\w+) (?<msgtype>says?|exclaims?|wonders?|yells?|chats?|guildtalks?|asks?|answers?|newbiechats?|openly traffics?|quests?|musics?|racetalks?|ordertalks?|tells you|says to you,) '(?<msg>.+)'$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+    lua: Some("rod.capture_chat()"),
+)

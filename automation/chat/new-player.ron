@@ -1,0 +1,11 @@
+(
+    name: Some("Capture new player arrivals"),
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "^A rasping voice answers '(?<new_player>.+), a (?<new_player_class>.+) \\.\\.\\.'$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+    lua: Some("rod.capture_chat(\"new-player\")"),
+)

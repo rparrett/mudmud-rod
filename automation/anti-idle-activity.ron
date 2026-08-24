@@ -1,0 +1,9 @@
+(
+    name: Some("Track outgoing activity"),
+    kind: Event((
+        event_names: [
+            "system.connected",
+            "system.outgoing",
+        ],
+    )),
+)

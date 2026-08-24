@@ -1,0 +1,6 @@
+(
+    name: Some("Prevent idle disconnects"),
+    kind: Timer((
+        interval_ms: 30000,
+    )),
+)
