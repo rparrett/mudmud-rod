@@ -1,0 +1,5 @@
+(
+    name: Some("Item helpers"),
+    priority: 2,
+    kind: Script(()),
+)

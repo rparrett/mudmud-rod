@@ -1,0 +1,10 @@
+(
+    name: Some("Continue auto-dig"),
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "^(?:Your dig uncovered nothing\\.|Your dig did not discover any exit\\.\\.\\.)$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)

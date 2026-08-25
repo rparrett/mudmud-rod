@@ -42,3 +42,29 @@ function rod.scan_all(path, timeout)
         end,
     })
 end
+
+local function await_discovery(path, command, event_name, operation, timeout)
+    local discovery_state
+    local state_key = "_" .. operation
+
+    path:input(command)
+    path:run(function()
+        discovery_state = rod[state_key]
+    end)
+    path:race(function(first)
+        first:event(event_name)
+        first:after(timeout or 45, function()
+            if rod[state_key] == discovery_state then
+                rod[state_key] = nil
+            end
+        end)
+    end)
+end
+
+function rod.search(path, command, timeout)
+    await_discovery(path, command or "search", "rod.search", "search", timeout)
+end
+
+function rod.dig(path, command, timeout)
+    await_discovery(path, command or "dig", "rod.dig", "dig", timeout)
+end

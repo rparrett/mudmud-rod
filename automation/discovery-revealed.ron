@@ -1,0 +1,10 @@
+(
+    name: Some("Handle revealed search and dig items"),
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "^Your (?<operation>dig|search) (?:reveals|uncovered) (?<item>.+)!$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)

@@ -4,6 +4,7 @@ rod.room.exits = rod.room.exits or {}
 rod.scan = rod.scan or {}
 rod.settings = rod.settings or {}
 rod.containers = rod.containers or {}
+rod.auto_loot = rod.auto_loot or {}
 rod.affects_by_name = rod.affects_by_name or {}
 
 -- Monotonic timestamps are meaningful only within the current Lua runtime.
@@ -21,3 +22,4 @@ if rod.settings.mquaffkw == nil then rod.settings.mquaffkw = "blue" end
 if rod.settings.mquaffthresh == nil then rod.settings.mquaffthresh = 100 end
 if rod.settings.attack == nil then rod.settings.attack = "strike" end
 if rod.settings.scankw == nil then rod.settings.scankw = "" end
+if rod.settings.autoloot == nil then rod.settings.autoloot = true end

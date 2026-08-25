@@ -1,0 +1,10 @@
+(
+    name: Some("Continue auto-search"),
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "^You find nothing\\.$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)

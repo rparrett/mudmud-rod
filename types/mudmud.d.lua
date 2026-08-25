@@ -69,7 +69,8 @@ local MudmudTerminalBuffer = {}
 ---@param value? MudmudRichTextPart
 function MudmudTerminalBuffer:echo(value) end
 
----Append content followed by exactly one newline.
+---Write content as a complete chronological line.
+---If the buffer has an unfinished line, finish it before writing this one.
 ---@param value? MudmudRichTextPart
 function MudmudTerminalBuffer:echoln(value) end
 
@@ -95,6 +96,14 @@ function MudmudScreen.buffer(name) end
 ---@return boolean accepted
 ---@nodiscard
 function MudmudScreen.set_layout(layout) end
+
+---@class MudmudHeadless
+local MudmudHeadless = {}
+
+---Choose whether a headless profile session remains alive after a completed disconnection.
+---The default is false. EOF, timeout, explicit shutdown, and fatal errors remain authoritative.
+---@param enabled boolean
+function MudmudHeadless.keep_alive(enabled) end
 
 ---@class MudmudAnsi
 ---@field default MudmudAnsiColor Terminal default color.
@@ -248,6 +257,7 @@ function MudmudSequencePath:send_until(options) end
 
 ---Repeat a group of steps until its controller completes it.
 ---@param builder fun(attempt: MudmudSequencePath, retry: MudmudRetryControl)
+---@overload fun(label: string, builder: fun(attempt: MudmudSequencePath, retry: MudmudRetryControl))
 function MudmudSequencePath:retry(builder) end
 
 ---@alias MudmudSequenceState
@@ -280,6 +290,11 @@ function MudmudSequencePath:retry(builder) end
 ---@field step_kind? MudmudSequenceStepKind
 ---@field attempt? integer Current retry attempt, starting at one.
 ---@field error? string
+
+---Payload of the `sequence.status` event emitted for material sequencer status changes.
+---@class MudmudSequenceStatusEvent : MudmudSequenceStatus
+---@field summary? string Concise generated or author-provided description of the logical step.
+---@field reason? "started"|"replaced"|"requested"|"disconnect"|"reload"|"skip"|"restart" Why this status was published, when applicable.
 
 ---@class MudmudSequencer
 local MudmudSequencer = {}
@@ -380,7 +395,8 @@ function input(text) end
 ---@param value? MudmudRichTextPart
 function echo(value) end
 
----Append content followed by exactly one newline.
+---Write content as a complete chronological line in the main terminal buffer.
+---If the buffer has an unfinished line, finish it before writing this one.
 ---@param value? MudmudRichTextPart
 function echoln(value) end
 
@@ -440,6 +456,10 @@ connection = {}
 
 ---@type MudmudScreen
 screen = {}
+
+---Headless-only lifecycle controls. This global is nil in graphical frontends.
+---@type MudmudHeadless|nil
+headless = nil
 
 ---Remove Unicode whitespace from both ends of a string.
 ---@param value string

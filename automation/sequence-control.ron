@@ -1,0 +1,10 @@
+(
+    name: Some("Control the current sequence"),
+    kind: Line((
+        source: UserCommand,
+        kind: Regex,
+        pattern: "^(start|stop|pause|resume|skip)$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)

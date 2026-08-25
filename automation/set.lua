@@ -9,6 +9,7 @@ local definitions = {
     { name = "mquaffthresh", kind = "number", usage = "<number>", description = "Quaff when this much mana is missing" },
     { name = "attack", kind = "string", usage = "<text|unset>", description = "Command for secondary attacks" },
     { name = "scankw", kind = "string", usage = "<text|unset>", description = "Keyword to search for when scanning" },
+    { name = "autoloot", kind = "boolean", usage = "<on|off>", description = "Auto-loot revealed search and dig items" },
 }
 
 local function display_value(definition)

@@ -50,6 +50,7 @@ The current defaults are:
 | `mquaffthresh` | `100` | Quaff when this much mana is missing |
 | `attack` | `"strike"` | Secondary attack command |
 | `scankw` | unset | Keyword reported by scan automation |
+| `autoloot` | `true` | Auto-loot configured search and dig items |
 
 Use `set` while connected to display the available commands and current values:
 
@@ -70,3 +71,17 @@ rod.settings.quaffthresh = 50
 rod.settings.attack = "circle"
 rod.settings.scankw = "dragon"
 ```
+
+The `autoloot` setting can be toggled with `set autoloot on` and `set autoloot off`. Its item mapping
+is separate configuration and must be managed in profile Lua. `rod.auto_loot` keys are exact
+revealed item names. Values name entries in `rod.containers`; use an empty string to get an item
+without putting it into a container:
+
+```lua
+rod.auto_loot = {
+    ["a large stone with a flat top"] = "main",
+    ["a piece of duck meat"] = "",
+}
+```
+
+Add an exact entry to `rod.item_keywords` when the item's final word is not a sufficient keyword.

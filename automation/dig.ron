@@ -1,0 +1,10 @@
+(
+    name: Some("Auto-dig"),
+    kind: Line((
+        source: UserCommand,
+        kind: Regex,
+        pattern: "^dig(?<times>\\d*)(?:\\s+(?<target>.*\\S))?$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)
