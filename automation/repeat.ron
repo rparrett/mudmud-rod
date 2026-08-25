@@ -1,0 +1,10 @@
+(
+    name: Some("Repeat a command"),
+    kind: Line((
+        source: UserCommand,
+        kind: Regex,
+        pattern: "^([1-9][0-9]*)[ \\t]*([^0-9\\s].*)$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)
