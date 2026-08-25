@@ -1,7 +1,7 @@
 function rod.move(path, direction, timeout)
     timeout = timeout or 5
 
-    path:retry(function(attempt, retry)
+    path:retry("move " .. direction, function(attempt, retry)
         attempt:input(direction)
 
         attempt:race(function(first)
