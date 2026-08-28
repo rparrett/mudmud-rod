@@ -1,0 +1,5 @@
+(
+    name: Some("Status pane helpers"),
+    priority: 3,
+    kind: Script(()),
+)

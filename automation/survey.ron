@@ -1,5 +1,5 @@
 (
-    name: Some("Queue equipment survey"),
+    name: Some("Request equipment survey"),
     kind: Line((
         source: UserCommand,
         kind: Regex,

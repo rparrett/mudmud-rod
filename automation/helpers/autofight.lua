@@ -3,11 +3,11 @@ function rod.autofight()
         return
     end
 
-    rod.flush_equipment_actions()
-
     if msdp.OPPONENT_NAME == nil or msdp.OPPONENT_NAME == "" then
         return
     end
+
+    rod.flush_equipment_actions()
 
     local health = tonumber(msdp.HEALTH)
     local health_max = tonumber(msdp.HEALTH_MAX)

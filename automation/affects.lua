@@ -53,11 +53,7 @@ end
 
 local columns = 3
 local column_width = 18
-local display = {
-    { text = "━━", foreground = ansi.bright_magenta, bold = true },
-    { text = " Affects", foreground = ansi.bright_cyan, bold = true },
-    "\n",
-}
+local display = rod.status_header("Affects")
 
 for i = 1, #affects_order, columns do
     for column = 0, columns - 1 do
@@ -85,4 +81,4 @@ for i = 1, #affects_order, columns do
     table.insert(display, "\n")
 end
 
-rod.buffers.status:set(display)
+rod.set_status_section("affects", display)

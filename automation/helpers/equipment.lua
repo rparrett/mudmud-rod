@@ -20,7 +20,7 @@ local weapon_conditions = {
     ["broken"] = 0,
 }
 
-local armor_conditions = {
+local condition_ratings = {
     ["superb"] = 10,
     ["excellent"] = 10,
     ["very good"] = 9,
@@ -47,22 +47,20 @@ function rod.equipment_durability(entry)
     local maximum_ac
     local maximum_ac_known
     local current_ac
-    local durability_10
+    local condition_rating
 
     if is_weapon then
         maximum_ac = 12
         maximum_ac_known = true
         current_ac = weapon_conditions[condition]
-        if current_ac ~= nil then
-            durability_10 = current_ac / 12 * 10
-        end
+        condition_rating = condition_ratings[condition]
     else
         local known_ac = rod.equipment_ac[entry.name]
         maximum_ac = known_ac or 10
         maximum_ac_known = known_ac ~= nil
-        durability_10 = armor_conditions[condition]
-        if durability_10 ~= nil then
-            current_ac = math.floor(durability_10 * maximum_ac / 10)
+        condition_rating = condition_ratings[condition]
+        if condition_rating ~= nil then
+            current_ac = math.floor(condition_rating * maximum_ac / 10)
         end
     end
 
@@ -70,7 +68,7 @@ function rod.equipment_durability(entry)
         current_ac = current_ac,
         maximum_ac = maximum_ac,
         maximum_ac_known = maximum_ac_known,
-        durability_10 = durability_10,
+        condition_rating = condition_rating,
         is_weapon = is_weapon,
     }
 end
@@ -93,6 +91,196 @@ function rod.wearing_item(item_name)
     end
 
     return false
+end
+
+function rod.equipment_slot_name(slot)
+    local normalized = tostring(slot or ""):match("^%s*(.-)%s*$")
+    local lower = normalized:lower()
+
+    if lower == "missile wielded" then
+        return "missile"
+    elseif lower == "dual wielded" then
+        return "dual"
+    elseif lower:match("^worn%s") then
+        return normalized:match("(%S+)$") or normalized
+    end
+
+    return normalized
+end
+
+local function equipment_condition_style(durability)
+    local rating = durability.condition_rating
+    if rating == nil then
+        return ansi.bright_black, false
+    elseif rating >= 10 then
+        return ansi.bright_green, false
+    elseif rating >= 9 then
+        return ansi.bright_green, true
+    elseif rating >= 7 then
+        return ansi.bright_green, false
+    elseif rating >= 5 then
+        return ansi.bright_yellow, false
+    elseif rating >= 3 then
+        return ansi.bright_yellow, true
+    elseif rating >= 2 then
+        return ansi.yellow, false
+    elseif rating >= 1 then
+        return ansi.red, false
+    end
+
+    return ansi.bright_red, false
+end
+
+
+function rod.update_equipment_status()
+    local display = rod.status_header("Equipment")
+
+    if #rod.equipment == 0 then
+        table.insert(display, {
+            text = "Need survey.",
+            foreground = ansi.bright_black,
+            italic = true,
+        })
+        table.insert(display, "\n")
+        rod.set_status_section("equipment", display)
+        return
+    end
+
+    local endangered_names = {}
+    if rod.settings.eqstrip then
+        for _, entry in ipairs(rod.equipment) do
+            local current_ac = rod.equipment_effective_ac(entry)
+            if current_ac ~= nil and current_ac < rod.settings.eqstripthresh then
+                endangered_names[entry.name] = true
+            end
+        end
+    end
+
+    local rows = {}
+    for _, entry in ipairs(rod.equipment) do
+        local current_ac, durability = rod.equipment_effective_ac(entry)
+        local hits = rod._equipment_hits[entry.name] or 0
+        local damaged_by_ac = current_ac ~= nil and current_ac < durability.maximum_ac
+
+        if damaged_by_ac or hits > 0 or endangered_names[entry.name] then
+            table.insert(rows, {
+                entry = entry,
+                current_ac = current_ac,
+                durability = durability,
+                hits = hits,
+                endangered = endangered_names[entry.name] == true,
+                at_limit = rod.settings.eqstrip
+                    and current_ac ~= nil
+                    and current_ac == rod.settings.eqstripthresh,
+            })
+        end
+    end
+
+    table.sort(rows, function(left, right)
+        if left.current_ac ~= nil and right.current_ac ~= nil then
+            if left.current_ac ~= right.current_ac then
+                return left.current_ac < right.current_ac
+            end
+        elseif left.current_ac ~= nil then
+            return true
+        elseif right.current_ac ~= nil then
+            return false
+        end
+
+        local left_rating = left.durability.condition_rating
+        local right_rating = right.durability.condition_rating
+        if left_rating ~= nil and right_rating ~= nil then
+            if left_rating ~= right_rating then
+                return left_rating < right_rating
+            end
+        elseif left_rating ~= nil then
+            return true
+        elseif right_rating ~= nil then
+            return false
+        end
+
+        if left.hits ~= right.hits then
+            return left.hits > right.hits
+        end
+
+        return left.entry.name < right.entry.name
+    end)
+
+    if #rows == 0 then
+        table.insert(display, {
+            text = "All gear is superb.",
+            foreground = ansi.bright_green,
+        })
+        table.insert(display, "\n")
+        rod.set_status_section("equipment", display)
+        return
+    end
+
+    local shown = math.min(#rows, 12)
+    for index = 1, shown do
+        local row = rows[index]
+        local condition_color, condition_bold = equipment_condition_style(row.durability)
+        local ac_text
+        if row.current_ac == nil then
+            ac_text = row.hits > 0 and "-" .. row.hits or "?"
+        elseif row.durability.maximum_ac_known then
+            ac_text = string.format("%d/%d", row.current_ac, row.durability.maximum_ac)
+        else
+            ac_text = row.current_ac .. "?"
+        end
+
+        local action_text = " "
+        local action_color = ansi.default
+        if row.endangered then
+            action_text = "!"
+            action_color = ansi.bright_red
+        elseif row.at_limit then
+            action_text = "*"
+            action_color = ansi.bright_yellow
+        end
+
+        table.insert(display, {
+            text = rod.equipment_slot_name(row.entry.slot),
+            foreground = ansi.bright_black,
+            width = 7,
+        })
+        table.insert(display, " ")
+        table.insert(display, {
+            text = row.entry.condition,
+            foreground = condition_color,
+            bold = condition_bold,
+            width = 14,
+        })
+        table.insert(display, {
+            text = ac_text,
+            foreground = row.endangered and ansi.bright_red
+                or row.at_limit and ansi.bright_yellow
+                or ansi.default,
+            width = 7,
+            align = "right",
+        })
+        table.insert(display, " ")
+        table.insert(display, {
+            text = action_text,
+            foreground = action_color,
+            bold = action_text ~= " ",
+            width = 1,
+        })
+        table.insert(display, " ")
+        table.insert(display, row.entry.name)
+        table.insert(display, "\n")
+    end
+
+    if shown < #rows then
+        table.insert(display, {
+            text = string.format("... %d more damaged items", #rows - shown),
+            foreground = ansi.bright_black,
+            italic = true,
+        })
+        table.insert(display, "\n")
+    end
+
+    rod.set_status_section("equipment", display)
 end
 
 function rod.queue_equipment_survey()
@@ -153,6 +341,8 @@ function rod.record_equipment_damage(item_name)
     if total_hits >= rod.settings.eqsurveyhits then
         rod.queue_equipment_survey()
     end
+
+    rod.update_equipment_status()
 end
 
 function rod.flush_equipment_actions()
@@ -271,5 +461,6 @@ function rod.complete_equipment_survey()
     emit("rod.equipment.updated", {
         items = completed,
     })
+    rod.update_equipment_status()
     return true
 end

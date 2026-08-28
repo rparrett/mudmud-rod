@@ -136,6 +136,11 @@ else
 end
 
 rod.settings[definition.name] = value
+if (definition.name == "eqstrip" or definition.name == "eqstripthresh")
+    and rod.update_equipment_status
+then
+    rod.update_equipment_status()
+end
 echoln({
     "[",
     { text = "rod", foreground = ansi.bright_magenta },
