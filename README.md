@@ -45,6 +45,8 @@ The current defaults are:
 | `quaff` | `true` | Auto-quaff healing potions |
 | `quaffkw` | `"maroon"` | Healing potion keyword |
 | `quaffthresh` | `20` | Quaff when this much HP is missing |
+| `quaffsperdrink` | `8` | Quaffs between drinks from a spring |
+| `springkw` | `"mystical"` | Drinking spring keyword |
 | `mquaff` | `true` | Auto-quaff mana potions |
 | `mquaffkw` | `"blue"` | Mana potion keyword |
 | `mquaffthresh` | `100` | Quaff when this much mana is missing |

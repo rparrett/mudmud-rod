@@ -17,6 +17,8 @@ if rod.settings.sanckw == nil then rod.settings.sanckw = "sanctuary" end
 if rod.settings.quaff == nil then rod.settings.quaff = true end
 if rod.settings.quaffkw == nil then rod.settings.quaffkw = "maroon" end
 if rod.settings.quaffthresh == nil then rod.settings.quaffthresh = 20 end
+if rod.settings.quaffsperdrink == nil then rod.settings.quaffsperdrink = 8 end
+if rod.settings.springkw == nil then rod.settings.springkw = "mystical" end
 if rod.settings.mquaff == nil then rod.settings.mquaff = true end
 if rod.settings.mquaffkw == nil then rod.settings.mquaffkw = "blue" end
 if rod.settings.mquaffthresh == nil then rod.settings.mquaffthresh = 100 end

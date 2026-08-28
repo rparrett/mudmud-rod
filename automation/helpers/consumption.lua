@@ -5,6 +5,17 @@ function rod.quaff(item, count)
     for _ = 1, count do
         rod._quaff_count = (rod._quaff_count or 0) + 1
 
+        local quaffs_per_drink = tonumber(rod.settings.quaffsperdrink)
+        local spring_keyword = rod.settings.springkw
+        if quaffs_per_drink
+            and quaffs_per_drink >= 1
+            and spring_keyword
+            and spring_keyword ~= ""
+            and rod._quaff_count % quaffs_per_drink == 0
+        then
+            send("drink " .. spring_keyword)
+        end
+
         -- Using q bypasses Realms' anti-quaff behavior in some fights.
         send("q " .. item .. " " .. container)
     end

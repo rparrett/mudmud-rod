@@ -4,6 +4,8 @@ local definitions = {
     { name = "quaff", kind = "boolean", usage = "<on|off>", description = "Auto-quaff" },
     { name = "quaffkw", kind = "string", usage = "<text|unset>", description = "Keyword for healing potions" },
     { name = "quaffthresh", kind = "number", usage = "<number>", description = "Quaff when this much HP is missing" },
+    { name = "quaffsperdrink", kind = "number", usage = "<number>", description = "Quaffs between spring drinks", integer = true, minimum = 1 },
+    { name = "springkw", kind = "string", usage = "<text|unset>", description = "Keyword for a drinking spring" },
     { name = "mquaff", kind = "boolean", usage = "<on|off>", description = "Auto-quaff mana" },
     { name = "mquaffkw", kind = "string", usage = "<text|unset>", description = "Keyword for mana potions" },
     { name = "mquaffthresh", kind = "number", usage = "<number>", description = "Quaff when this much mana is missing" },
@@ -103,6 +105,24 @@ elseif definition.kind == "number" then
         echoln({
             { text = "Invalid number: ", foreground = ansi.bright_red },
             setting_text,
+        })
+        return
+    end
+    if definition.integer and value % 1 ~= 0 then
+        echoln({
+            { text = "Invalid number: ", foreground = ansi.bright_red },
+            setting_text,
+            ". Use a whole number.",
+        })
+        return
+    end
+    if definition.minimum and value < definition.minimum then
+        echoln({
+            { text = "Invalid number: ", foreground = ansi.bright_red },
+            setting_text,
+            ". Minimum is ",
+            tostring(definition.minimum),
+            ".",
         })
         return
     end
