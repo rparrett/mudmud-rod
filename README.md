@@ -34,7 +34,7 @@ rod.item_keywords["a custom leather bag"] = "leather-bag"
 rod.containers.main = "a custom leather bag"
 ```
 
-### RoD settings
+### mudmud-rod settings
 
 The current defaults are:
 
@@ -53,6 +53,9 @@ The current defaults are:
 | `attack` | `"strike"` | Secondary attack command |
 | `scankw` | unset | Keyword reported by scan automation |
 | `autoloot` | `true` | Auto-loot configured search and dig items |
+| `eqstrip` | `true` | Strip equipment before it breaks |
+| `eqstripthresh` | `4` | Strip equipment below this estimated AC |
+| `eqsurveyhits` | `3` | Equipment damage hits before requesting a survey |
 
 Use `set` while connected to display the available commands and current values:
 
@@ -87,3 +90,14 @@ rod.auto_loot = {
 ```
 
 Add an exact entry to `rod.item_keywords` when the item's final word is not a sufficient keyword.
+
+### Equipment condition tracking
+
+mudmud-rod surveys damaged equipment and removes items before they break. This behavior is
+controlled by the `eqstrip`, `eqstripthresh`, and `eqsurveyhits` settings above.
+
+Add maximum AC values for unrecognized armor in profile Lua when needed:
+
+```lua
+rod.equipment_ac["a custom breastplate"] = 20
+```

@@ -1,0 +1,10 @@
+(
+    name: Some("Begin equipment survey"),
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "^You are using:$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)

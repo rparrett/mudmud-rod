@@ -1,5 +1,5 @@
 (
-    name: Some("RoD screen layout"),
+    name: Some("mudmud-rod screen layout"),
     priority: 2,
     kind: Script(()),
 )

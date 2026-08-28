@@ -12,6 +12,9 @@ local definitions = {
     { name = "attack", kind = "string", usage = "<text|unset>", description = "Command for secondary attacks" },
     { name = "scankw", kind = "string", usage = "<text|unset>", description = "Keyword to search for when scanning" },
     { name = "autoloot", kind = "boolean", usage = "<on|off>", description = "Auto-loot revealed search and dig items" },
+    { name = "eqstrip", kind = "boolean", usage = "<on|off>", description = "Strip equipment before it breaks" },
+    { name = "eqstripthresh", kind = "number", usage = "<number>", description = "Strip equipment below this AC", integer = true, minimum = 1 },
+    { name = "eqsurveyhits", kind = "number", usage = "<number>", description = "Damage hits before requesting a survey", integer = true, minimum = 1 },
 }
 
 local function display_value(definition)

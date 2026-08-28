@@ -1,0 +1,5 @@
+(
+    name: Some("Equipment condition helpers"),
+    priority: 2,
+    kind: Script(()),
+)

@@ -1,0 +1,10 @@
+(
+    name: Some("Track equipment survey entry"),
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "^<(?<slot>[^>]+)>\\s+\\[(?<condition>[^\\]]+)\\]\\s+(?:\\([^()]*\\)\\s*)*(?<item>.+)$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)

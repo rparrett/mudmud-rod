@@ -1,0 +1,10 @@
+(
+    name: Some("Complete equipment survey"),
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "^\\(type 'garb' for a list of all wear locations\\)$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)

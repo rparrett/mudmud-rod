@@ -1,0 +1,10 @@
+(
+    name: Some("Queue equipment survey"),
+    kind: Line((
+        source: UserCommand,
+        kind: Regex,
+        pattern: "^survey$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)

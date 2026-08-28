@@ -13,9 +13,7 @@ local buffs = {
     { spell = "eldritch sphere", potion = "eldritch" },
 }
 
--- TODO: Treat protection as active when equipment tracking shows an item
--- matching "the Storm" is being worn.
-local protection_from_equipment = false
+local protection_from_equipment = rod.wearing_item("the Storm")
 
 for _, buff in ipairs(buffs) do
     if rod.affects_by_name[buff.spell] == nil

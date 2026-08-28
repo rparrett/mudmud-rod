@@ -1,0 +1,10 @@
+(
+    name: Some("Track equipment damage"),
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "\\((?<item>[^)]+) gets damaged\\)",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)
