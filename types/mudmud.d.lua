@@ -41,18 +41,22 @@
 ---@alias MudmudPlatform "ios"|"macos"|"windows"|"linux"|"android"|"unknown"
 ---@alias MudmudCapability "screen_layout"
 
----@class MudmudTerminalBufferPane
+---@class MudmudTerminalLayoutNodePresentation
+---@field cols? integer Fixed width in terminal columns. Valid on one direct child of a columns split, from 1 through 1000.
+---@field rows? integer Fixed height in terminal rows. Valid on one direct child of a rows split, from 1 through 1000.
+---@field font_size? integer Inherited absolute font size in CSS pixels from 7 through 28. Defaults to the nearest ancestor size, then the global terminal size.
+
+---@class MudmudTerminalBufferPane : MudmudTerminalLayoutNodePresentation
 ---@field buffer string Stable named buffer to display. Every layout must contain main exactly once.
 ---@field wrap? boolean Whether text wraps. Defaults to the main-terminal setting for main and true otherwise.
 ---@field scroll_x? boolean Whether horizontal overflow scrolls instead of clipping. Defaults to true.
 ---@field scroll_y? boolean Whether vertical overflow scrolls instead of clipping. Defaults to true.
----@field font_size? integer Absolute font size in CSS pixels from 7 through 28. Defaults to the global terminal size.
 ---@field scrollback_lines? integer Positive per-buffer scrollback limit.
 
----@class MudmudTerminalSplit
+---@class MudmudTerminalSplit : MudmudTerminalLayoutNodePresentation
 ---@field id? string Stable divider identifier used for persisted resizing.
 ---@field split "columns"|"rows" Left/right columns or top/bottom rows.
----@field ratio? number Fraction assigned to first, greater than zero and less than one. Defaults to 0.5.
+---@field ratio? number Fraction assigned to first, greater than zero and less than one. Defaults to 0.5. Cannot be combined with cols or rows on this split's children.
 ---@field first MudmudTerminalLayoutNode
 ---@field second MudmudTerminalLayoutNode
 

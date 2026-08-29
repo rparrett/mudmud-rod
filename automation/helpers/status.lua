@@ -10,7 +10,7 @@ end
 
 function rod.render_status()
     local output = {}
-    local order = { "affects", "equipment" }
+    local order = { "character", "opponent", "area", "affects", "equipment" }
 
     for index, section_name in ipairs(order) do
         if index > 1 then

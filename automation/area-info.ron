@@ -1,0 +1,11 @@
+(
+    name: Some("Update area status"),
+    kind: Event((
+        event_names: [
+            "msdp.AREA_NAME",
+            "msdp.GEO",
+            "msdp.ROOM_TERRAIN",
+            "msdp.WORLD_TIME",
+        ],
+    )),
+)

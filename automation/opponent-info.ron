@@ -1,0 +1,6 @@
+(
+    name: Some("Update opponent status"),
+    kind: Event((
+        event_names: ["msdp.OPPONENT_NAME", "msdp.OPPONENT_HEALTH", "msdp.OPPONENT_LEVEL"],
+    )),
+)

@@ -1,0 +1,12 @@
+(
+    name: Some("Update character status"),
+    kind: Event((
+        event_names: [
+            "msdp.CHARACTER_NAME",
+            "msdp.CLASS",
+            "msdp.ALIGNMENT",
+            "msdp.FAVOR",
+            "msdp.COMBAT_STYLE",
+        ],
+    )),
+)

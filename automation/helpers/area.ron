@@ -1,0 +1,5 @@
+(
+    name: Some("Area status helpers"),
+    priority: 4,
+    kind: Script(()),
+)

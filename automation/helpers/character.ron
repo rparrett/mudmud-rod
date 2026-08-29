@@ -1,0 +1,5 @@
+(
+    name: Some("Character status helpers"),
+    priority: 4,
+    kind: Script(()),
+)

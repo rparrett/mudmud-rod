@@ -8,14 +8,14 @@ if supports("screen_layout") and platform() ~= "ios" then
         root = {
             id = "net.robparrett.mudmud-rod.main-sidebar",
             split = "columns",
-            ratio = 0.66,
             first = {
                 buffer = "main",
             },
             second = {
                 id = "net.robparrett.mudmud-rod.sidebar",
+                cols = 54,
                 split = "rows",
-                ratio = 0.50,
+                ratio = 0.40,
                 first = {
                     buffer = "net.robparrett.mudmud-rod.chat",
                     wrap = true,
@@ -27,7 +27,6 @@ if supports("screen_layout") and platform() ~= "ios" then
                     wrap = false,
                     scroll_x = false,
                     scroll_y = false,
-                    font_size = 10,
                 },
             },
         },
