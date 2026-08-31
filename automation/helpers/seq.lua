@@ -89,6 +89,13 @@ local function add_cast_pattern(first, pattern, handler)
     end
 end
 
+---Append a server-output-driven cast to a sequence path.
+---`timeout` limits how long one individual cast attempt may wait for a
+---recognized response; it resets after every retry. `max_retries` defaults to
+---five, in addition to the initial attempt.
+---@param path MudmudSequencePath
+---@param spell string
+---@param options? { target?: string, command?: string, timeout?: number, max_retries?: integer }
 function rod.cast(path, spell, options)
     options = options or {}
 
@@ -109,8 +116,20 @@ function rod.cast(path, spell, options)
     end
 
     local timeout = options.timeout or 14
-    local completion_patterns = rod.spell_completion_patterns(spell_name, target)
+    local max_retries = options.max_retries
+    if max_retries == nil then
+        max_retries = 5
+    end
+    if type(max_retries) ~= "number" or max_retries < 0 or max_retries % 1 ~= 0 then
+        error("cast max_retries must be a non-negative integer")
+    end
 
+    local completion_patterns = rod.spell_completion_patterns(spell_name, target)
+    local retry_count = 0
+
+    path:run(function()
+        retry_count = 0
+    end)
     path:retry("cast " .. spell_name, function(attempt, retry)
         attempt:send(command)
         attempt:race(function(first)
@@ -126,7 +145,19 @@ function rod.cast(path, spell, options)
                 end
             end
 
-            local function retry_cast()
+            local function retry_cast(match)
+                if retry_count >= max_retries then
+                    error(
+                        "cast '"
+                            .. spell_name
+                            .. "' exhausted "
+                            .. max_retries
+                            .. " retries: "
+                            .. match.line
+                    )
+                end
+
+                retry_count = retry_count + 1
                 retry:again()
             end
 

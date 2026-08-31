@@ -253,10 +253,13 @@ rod.spells = {
     },
     granite = {
         prefix = false,
+        affect = "granite skin",
         complete = {
             self("^(?<target>You)r skin takes on the appearance and texture of granite\\.$"),
         },
         retry = {
+            -- This also means granite skin is already active. Callers that can
+            -- observe affects should avoid casting when it is present.
             "You fail to change your skin's texture.",
         },
     },
