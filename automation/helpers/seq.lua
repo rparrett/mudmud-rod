@@ -63,6 +63,112 @@ function rod.wait_until_msdp_room(path, room_name, timeout)
     end)
 end
 
+local function quoted_cast_name(name)
+    if name:find(" ", 1, true) then
+        return "'" .. name .. "'"
+    end
+
+    return name
+end
+
+local function add_cast_pattern(first, pattern, handler)
+    if type(pattern) == "string" then
+        first:line(pattern, handler)
+    elseif pattern.regex then
+        first:regex(pattern.regex, {
+            case_insensitive = pattern.case_insensitive == true,
+            handler = handler,
+        })
+    elseif pattern.line then
+        first:line(pattern.line, {
+            case_insensitive = pattern.case_insensitive == true,
+            handler = handler,
+        })
+    else
+        error("cast pattern must be a line string or a pattern table")
+    end
+end
+
+function rod.cast(path, spell, options)
+    options = options or {}
+
+    local spell_name = tostring(spell):lower()
+    local definition = rod.spell_definition(spell_name)
+    if not definition then
+        error("no spell definition for '" .. spell_name .. "'")
+    end
+
+    local target = options.target and tostring(options.target) or nil
+    local command_name = tostring(options.command or definition.command or spell_name)
+    local command = quoted_cast_name(command_name)
+    if definition.prefix ~= false then
+        command = "c " .. command
+    end
+    if target and target ~= "" then
+        command = command .. " " .. target
+    end
+
+    local timeout = options.timeout or 14
+    local completion_patterns = rod.spell_completion_patterns(spell_name, target)
+
+    path:retry("cast " .. spell_name, function(attempt, retry)
+        attempt:send(command)
+        attempt:race(function(first)
+            local function complete(status)
+                return function(match)
+                    emit("rod.cast.complete", {
+                        spell = spell_name,
+                        target = target,
+                        status = status,
+                        line = match.line,
+                    })
+                    retry:done()
+                end
+            end
+
+            local function retry_cast()
+                retry:again()
+            end
+
+            local function terminal_failure(match)
+                error("cast '" .. spell_name .. "' failed: " .. match.line)
+            end
+
+            for _, regex in ipairs(completion_patterns) do
+                first:regex(regex, {
+                    case_insensitive = true,
+                    handler = complete("success"),
+                })
+            end
+
+            local you_failed = definition.you_failed
+                or rod.cast_patterns.you_failed_by_spell[spell_name]
+                or "complete"
+            if you_failed == "retry" then
+                first:line("You failed.", retry_cast)
+            elseif you_failed == "terminal" then
+                first:line("You failed.", terminal_failure)
+            else
+                first:line("You failed.", complete("already"))
+            end
+
+            for _, pattern in ipairs(definition.retry or {}) do
+                add_cast_pattern(first, pattern, retry_cast)
+            end
+            for _, pattern in ipairs(rod.cast_patterns.retry) do
+                add_cast_pattern(first, pattern, retry_cast)
+            end
+            for _, pattern in ipairs(rod.cast_patterns.terminal) do
+                add_cast_pattern(first, pattern, terminal_failure)
+            end
+
+            first:after(timeout, function()
+                error("cast '" .. spell_name .. "' timed out after " .. timeout .. " seconds")
+            end)
+        end)
+    end)
+end
+
 function rod.scan_all(path, timeout)
     path:input("scan all")
     path:wait_event("rod.scan", {

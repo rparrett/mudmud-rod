@@ -1,0 +1,5 @@
+(
+    name: Some("Spell definitions"),
+    priority: 2,
+    kind: Script(()),
+)
