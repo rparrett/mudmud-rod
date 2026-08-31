@@ -4,6 +4,8 @@ if target == nil or target == "" then
 end
 
 if event.payload.found then
+    rod.play_sound("scan_target")
+
     echoln({
         "\n[",
         { text = "rod",  foreground = ansi.bright_magenta },

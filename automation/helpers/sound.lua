@@ -1,6 +1,7 @@
 if platform() == "macos" then
     rod.sounds.repop = rod.sounds.repop or "/System/Library/Sounds/Glass.aiff"
     rod.sounds.death = rod.sounds.death or "/System/Library/Sounds/Sosumi.aiff"
+    rod.sounds.scan_target = rod.sounds.scan_target or "/System/Library/Sounds/Ping.aiff"
 end
 
 function rod.play_sound(name, options)
