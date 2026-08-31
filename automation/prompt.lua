@@ -12,6 +12,20 @@ if rod._where_tracking then
     })
 end
 
+if rod._container_tracking then
+    local container = rod._container_tracking
+    local items = rod._container_contents_working or {}
+
+    rod.container_contents[container] = items
+    rod._container_tracking = nil
+    rod._container_contents_working = {}
+
+    emit("rod.container.updated", {
+        container = container,
+        items = items,
+    })
+end
+
 if rod._scan_direction then
     local scan_result = rod.scan_result()
     rod._scan_direction = nil

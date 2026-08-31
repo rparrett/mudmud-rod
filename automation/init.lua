@@ -5,6 +5,7 @@ rod.area_players = rod.area_players or {}
 rod.scan = rod.scan or {}
 rod.settings = rod.settings or {}
 rod.containers = rod.containers or {}
+rod.container_contents = rod.container_contents or {}
 rod.auto_loot = rod.auto_loot or {}
 rod.affects_by_name = rod.affects_by_name or {}
 rod.equipment = rod.equipment or {}
@@ -20,6 +21,7 @@ rod._equipment_survey_inflight = rod._equipment_survey_inflight or false
 rod._equipment_tracking_survey = rod._equipment_tracking_survey or false
 rod._repop_sightings = rod._repop_sightings or {}
 rod._where_tracking = rod._where_tracking or false
+rod._container_contents_working = rod._container_contents_working or {}
 
 -- Monotonic timestamps are meaningful only within the current Lua runtime.
 rod._last_send_at = time.monotonic()

@@ -1,0 +1,10 @@
+(
+    name: Some("Track carried container item"),
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "^\\s{5}(?:\\([^)]*\\)\\s+)*(?<item>[^()].*?)(?:\\s+\\((?<quantity>\\d+)\\))?\\s*$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)

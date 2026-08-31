@@ -1,0 +1,10 @@
+(
+    name: Some("Begin carried container snapshot"),
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "^You take a closer look at (?<container>.+) in inventory\\.\\.\\.$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)
