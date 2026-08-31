@@ -1,0 +1,5 @@
+(
+    name: Some("Room helpers"),
+    priority: 2,
+    kind: Script(()),
+)
