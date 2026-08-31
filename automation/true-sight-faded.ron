@@ -1,0 +1,10 @@
+(
+    name: Some("Announce true sight fading"),
+    kind: Line((
+        source: ServerLine,
+        kind: Plaintext,
+        pattern: "Your vision descends to the material plane.",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)

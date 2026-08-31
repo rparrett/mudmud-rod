@@ -1,0 +1,1 @@
+tts.speak("True Sight")

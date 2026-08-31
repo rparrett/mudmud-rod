@@ -367,6 +367,7 @@ function rod.flush_equipment_actions()
             end
 
             if count > 0 then
+                tts.speak("Removing " .. keyword)
                 rod._equipment_removal_sent[item_name] = true
             end
         end

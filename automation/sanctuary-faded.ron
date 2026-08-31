@@ -1,0 +1,13 @@
+(
+    name: Some("Announce sanctuary fading"),
+    kind: Line((
+        source: ServerLine,
+        kind: Plaintext,
+        patterns: [
+            "The luminous aura about your body fades away.",
+            "You are no longer protected by the Gods.",
+        ],
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)

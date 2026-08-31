@@ -39,7 +39,7 @@
 ---@field align? MudmudRichTextAlign Alignment within width. Defaults to left.
 
 ---@alias MudmudPlatform "ios"|"macos"|"windows"|"linux"|"android"|"unknown"
----@alias MudmudCapability "screen_layout"|"audio"
+---@alias MudmudCapability "screen_layout"|"audio"|"tts"
 
 ---@class MudmudPackAsset
 
@@ -73,6 +73,26 @@ local MudmudAudio = {}
 ---@return MudmudAudioPlayback|false
 ---@nodiscard
 function MudmudAudio.play(source, options) end
+
+---@class MudmudTtsSpeakOptions
+---@field interrupt? boolean Stop current and queued speech for this profile before speaking. Defaults to false.
+
+---@class MudmudTts
+local MudmudTts = {}
+
+---Speak text with the operating system's configured voice.
+---Returns whether a supported frontend accepted the request, not whether speech completed.
+---@param text string
+---@param options? MudmudTtsSpeakOptions
+---@return boolean accepted
+---@nodiscard
+function MudmudTts.speak(text, options) end
+
+---Stop current and queued speech for this profile.
+---Returns false without acting when system speech is unsupported by the frontend.
+---@return boolean accepted
+---@nodiscard
+function MudmudTts.stop() end
 
 ---@class MudmudTerminalLayoutNodePresentation
 ---@field cols? integer Fixed width in terminal columns. Valid on one direct child of a columns split, from 1 through 1000.
@@ -499,6 +519,9 @@ pack = {}
 
 ---@type MudmudAudio
 audio = {}
+
+---@type MudmudTts
+tts = {}
 
 ---Headless-only lifecycle controls. This global is nil in graphical frontends.
 ---@type MudmudHeadless|nil
