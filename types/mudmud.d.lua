@@ -39,7 +39,40 @@
 ---@field align? MudmudRichTextAlign Alignment within width. Defaults to left.
 
 ---@alias MudmudPlatform "ios"|"macos"|"windows"|"linux"|"android"|"unknown"
----@alias MudmudCapability "screen_layout"
+---@alias MudmudCapability "screen_layout"|"audio"
+
+---@class MudmudPackAsset
+
+---@class MudmudPack
+local MudmudPack = {}
+
+---Resolve an existing regular file in an enabled automation pack.
+---The path is relative to the pack root and cannot escape it.
+---@param pack_id string
+---@param path string
+---@return MudmudPackAsset
+---@nodiscard
+function MudmudPack.asset(pack_id, path) end
+
+---@class MudmudAudioPlayOptions
+---@field volume? number Playback volume from 0 through 1. Defaults to 1.
+
+---@class MudmudAudioPlayback
+local MudmudAudioPlayback = {}
+
+---Stop this playback if it is still active. Repeated calls are harmless.
+function MudmudAudioPlayback:stop() end
+
+---@class MudmudAudio
+local MudmudAudio = {}
+
+---Play a pack asset or an absolute filesystem path.
+---Returns false without acting when audio is unsupported by the frontend.
+---@param source MudmudPackAsset|string
+---@param options? MudmudAudioPlayOptions
+---@return MudmudAudioPlayback|false
+---@nodiscard
+function MudmudAudio.play(source, options) end
 
 ---@class MudmudTerminalLayoutNodePresentation
 ---@field cols? integer Fixed width in terminal columns. Valid on one direct child of a columns split, from 1 through 1000.
@@ -460,6 +493,12 @@ connection = {}
 
 ---@type MudmudScreen
 screen = {}
+
+---@type MudmudPack
+pack = {}
+
+---@type MudmudAudio
+audio = {}
 
 ---Headless-only lifecycle controls. This global is nil in graphical frontends.
 ---@type MudmudHeadless|nil

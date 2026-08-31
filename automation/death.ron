@@ -1,0 +1,10 @@
+(
+    name: Some("Player death alert"),
+    kind: Line((
+        source: ServerLine,
+        kind: Plaintext,
+        pattern: "..Everything begins to fade to black.",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)

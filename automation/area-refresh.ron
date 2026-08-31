@@ -1,0 +1,4 @@
+(
+    name: Some("Refresh area status"),
+    kind: Timer((interval_ms: 30000)),
+)

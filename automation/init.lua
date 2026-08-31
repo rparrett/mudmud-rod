@@ -8,6 +8,7 @@ rod.auto_loot = rod.auto_loot or {}
 rod.affects_by_name = rod.affects_by_name or {}
 rod.equipment = rod.equipment or {}
 rod.equipment_ac = rod.equipment_ac or {}
+rod.sounds = rod.sounds or {}
 
 rod._equipment_hits = rod._equipment_hits or {}
 rod._equipment_remove_counts = rod._equipment_remove_counts or {}
@@ -16,6 +17,7 @@ rod._equipment_removal_sent = rod._equipment_removal_sent or {}
 rod._equipment_survey_pending = rod._equipment_survey_pending or false
 rod._equipment_survey_inflight = rod._equipment_survey_inflight or false
 rod._equipment_tracking_survey = rod._equipment_tracking_survey or false
+rod._repop_sightings = rod._repop_sightings or {}
 
 -- Monotonic timestamps are meaningful only within the current Lua runtime.
 rod._last_send_at = time.monotonic()

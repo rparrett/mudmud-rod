@@ -1,0 +1,5 @@
+(
+    name: Some("Sound helpers"),
+    priority: 2,
+    kind: Script(()),
+)

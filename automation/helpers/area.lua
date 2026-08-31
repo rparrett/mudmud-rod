@@ -42,6 +42,37 @@ local function world_time_12h(value)
     return string.format("%d %s", twelve_hour, suffix)
 end
 
+local function minutes(seconds)
+    return string.format("%dm", math.floor(seconds / 60 + 0.5))
+end
+
+local function repop_report(area_name)
+    local info = rod.repop_info and rod.repop_info[area_name]
+    local sighting = rod._repop_sightings[area_name]
+
+    if sighting then
+        local ago_seconds = math.max(0, time.now() - sighting.timestamp)
+        if info and info.timer_minutes then
+            local average_seconds = info.timer_minutes * 60
+            local estimated_seconds = math.max(0, average_seconds - ago_seconds)
+            return string.format(
+                "Repop: %s ago, %s avg, %s est to go",
+                minutes(ago_seconds),
+                minutes(average_seconds),
+                minutes(estimated_seconds)
+            )
+        end
+
+        return string.format("Repop: %s ago, ? avg, ? est to go", minutes(ago_seconds))
+    end
+
+    if info and info.timer_minutes then
+        return string.format("Repop: unknown, %sm avg", info.timer_minutes)
+    end
+
+    return "Repop: unknown"
+end
+
 function rod.update_area_status()
     local display = rod.status_header("Area")
     local area_name = tostring(msdp.AREA_NAME or "?")
@@ -64,13 +95,19 @@ function rod.update_area_status()
         foreground = ansi.bright_green,
     })
     table.insert(display, "\n")
+    local time_text = world_time_12h(msdp.WORLD_TIME)
+    local time_prefix = "Time: "
+    local repop_prefix = "  "
+    table.insert(display, { text = time_prefix, foreground = ansi.bright_black })
     table.insert(display, {
-        text = "Time: ",
-        foreground = ansi.bright_black,
-    })
-    table.insert(display, {
-        text = world_time_12h(msdp.WORLD_TIME),
+        text = time_text,
         foreground = ansi.bright_yellow,
+    })
+    table.insert(display, repop_prefix)
+    table.insert(display, {
+        text = repop_report(area_name),
+        foreground = ansi.bright_black,
+        width = math.max(1, line_width - #time_prefix - #time_text - #repop_prefix),
     })
     table.insert(display, "\n")
 
