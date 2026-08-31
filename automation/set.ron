@@ -1,5 +1,5 @@
 (
-    name: Some("Configure rod settings"),
+    name: Some("Configure mudmud-rod settings"),
     kind: Line((
         source: UserCommand,
         kind: Regex,
