@@ -1,0 +1,10 @@
+(
+    name: Some("Track area player"),
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "^\\s*\\|?\\s*(?<name>.*?)\\s*(?:\\((?<organization>[^()]*)\\))?\\s*\\|\\s+(?<room>.*?)\\s*$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)

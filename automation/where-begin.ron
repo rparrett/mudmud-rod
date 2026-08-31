@@ -1,0 +1,10 @@
+(
+    name: Some("Begin area player tracking"),
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "^Players near you in (?<area>.+?):$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)

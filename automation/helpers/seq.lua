@@ -31,6 +31,38 @@ function rod.move(path, direction, timeout)
     end)
 end
 
+function rod.wait_until_fight_idle(path, timeout)
+    timeout = timeout or 3
+
+    path:retry("wait until fight idle", function(attempt, retry)
+        attempt:race(function(first)
+            first:event("rod.fight.idle", {
+                handler = function()
+                    retry:done()
+                end,
+            })
+
+            first:after(timeout, function()
+                local opponent = tostring(msdp.OPPONENT_NAME or "")
+                if opponent == "" and rod._fight_idle_at == nil then
+                    retry:done()
+                else
+                    retry:again()
+                end
+            end)
+        end)
+    end)
+end
+
+function rod.wait_until_msdp_room(path, room_name, timeout)
+    path:race(function(first)
+        first:event("msdp.ROOM_NAME", {
+            payload = { new_value = room_name },
+        })
+        first:after(timeout or 20)
+    end)
+end
+
 function rod.scan_all(path, timeout)
     path:input("scan all")
     path:wait_event("rod.scan", {
