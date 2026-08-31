@@ -348,3 +348,133 @@ function rod.prepare_restock(path, timeout)
         })
     end)
 end
+
+local function stop_acquisition(message)
+    rod.echoln({
+        { text = "Restock acquisition stopped: ", foreground = ansi.bright_red, bold = true },
+        message,
+    })
+    seq.stop()
+end
+
+local function needs_for_source(needs, source_name)
+    local items = {}
+    for _, item in ipairs(sorted_keys(needs)) do
+        local need = needs[item]
+        if need.source == source_name and need.qty > 0 then
+            table.insert(items, item)
+        end
+    end
+    return items
+end
+
+local function quoted_keyword(keyword)
+    if keyword:find(" ", 1, true) then
+        return "'" .. keyword .. "'"
+    end
+    return keyword
+end
+
+---Append acquisition of prepared deficits from one configured source.
+---All commands for the source are sent together and do not wait for prompts.
+---@param path MudmudSequencePath
+---@param source_name string
+function rod.restock_from(path, source_name)
+    path:run(function()
+        local state = rod._restock
+        if not state or state.status ~= "prepared" then
+            stop_acquisition("run rod.prepare_restock first.")
+            return
+        end
+
+        local source = rod.restock_sources[source_name]
+        if type(source) ~= "table" then
+            stop_acquisition("unknown source '" .. tostring(source_name) .. "'.")
+            return
+        end
+
+        local items = needs_for_source(state.needs, source_name)
+        if #items == 0 then
+            rod.echoln({
+                "No stock needed from ",
+                { text = source_name, foreground = ansi.bright_cyan },
+                ".",
+            })
+            return
+        end
+
+        if not supported_source_kinds[source.kind] then
+            stop_acquisition(
+                "source '"
+                    .. source_name
+                    .. "' uses unsupported acquisition kind '"
+                    .. tostring(source.kind)
+                    .. "'."
+            )
+            return
+        end
+
+        if not rod.assert_room(source.room) then
+            seq.stop()
+            return
+        end
+
+        local unit_count = 0
+        for _, item in ipairs(items) do
+            local need = state.needs[item]
+            local destination_keyword = quoted_keyword(rod.item_keywords[need.container_name])
+            local item_keyword = quoted_keyword(rod.item_keywords[item])
+
+            if source.kind == "container" then
+                local source_keyword = quoted_keyword(source.keyword)
+                send(
+                    "fill my."
+                        .. destination_keyword
+                        .. " "
+                        .. need.qty
+                        .. " "
+                        .. item_keyword
+                        .. " "
+                        .. source_keyword
+                )
+            elseif source.kind == "shop" then
+                local remaining = need.qty
+                while remaining > 0 do
+                    local batch = math.min(remaining, 50)
+                    send("buy " .. batch .. " " .. item_keyword)
+
+                    if batch > 1 then
+                        send("empty 'my.shoppe bag' my." .. destination_keyword)
+                        send("drop 'my.shoppe bag'")
+                    else
+                        send("put " .. item_keyword .. " in my." .. destination_keyword)
+                    end
+
+                    remaining = remaining - batch
+                end
+            end
+            unit_count = unit_count + need.qty
+        end
+
+        state.requested_sources = state.requested_sources or {}
+        state.requested_sources[source_name] = {
+            requested_at = time.monotonic(),
+            items = #items,
+            units = unit_count,
+        }
+
+        rod.echoln({
+            "Requested ",
+            { text = tostring(unit_count), foreground = ansi.bright_cyan, bold = true },
+            " unit",
+            unit_count == 1 and "" or "s",
+            " across ",
+            { text = tostring(#items), foreground = ansi.bright_cyan, bold = true },
+            " item",
+            #items == 1 and "" or "s",
+            " from ",
+            { text = source_name, foreground = ansi.bright_cyan },
+            ".",
+        })
+    end)
+end

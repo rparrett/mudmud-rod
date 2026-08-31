@@ -1,0 +1,5 @@
+(
+    name: Some("Restock source catalog"),
+    priority: 2,
+    kind: Script(()),
+)
