@@ -187,6 +187,31 @@ function rod.compute_restock_needs(stock, container_contents, containers)
     return needs
 end
 
+---Return whether a checked deficit table contains anything to restock.
+---Without an explicit table, `rod.check_stock` must have completed first.
+---@param needs? table<string, table>
+---@return boolean needs_restock
+---@return string? item
+---@return table? need
+function rod.needs_restock(needs)
+    if needs == nil then
+        local state = rod._restock
+        if not state or state.status ~= "checked" then
+            error("restock needs are unavailable; run rod.check_stock first")
+        end
+        needs = state.needs
+    end
+
+    for _, item in ipairs(sorted_keys(needs)) do
+        local need = needs[item]
+        if need.qty > 0 then
+            return true, item, need
+        end
+    end
+
+    return false, nil, nil
+end
+
 ---Return the distinct physical containers needed by a stock configuration.
 ---Results are sorted by physical container name for deterministic inspection.
 ---Call `rod.validate_restock_config` before this helper.
@@ -228,7 +253,7 @@ local function count_needs(needs)
     return item_count, unit_count
 end
 
-local function stop_preparation(status, messages)
+local function stop_stock_check(status, messages)
     rod._restock = {
         status = status,
         needs = {},
@@ -236,7 +261,7 @@ local function stop_preparation(status, messages)
     }
 
     rod.echoln({
-        { text = "Restock preparation stopped.", foreground = ansi.bright_red, bold = true },
+        { text = "Stock check stopped.", foreground = ansi.bright_red, bold = true },
     })
     for _, message in ipairs(messages) do
         rod.echoln({
@@ -251,28 +276,28 @@ end
 ---Each container response may take up to `timeout` seconds; the default is 10.
 ---@param path MudmudSequencePath
 ---@param timeout? number
-function rod.prepare_restock(path, timeout)
+function rod.check_stock(path, timeout)
     timeout = timeout or 10
 
     path:run(function()
         local valid, errors = rod.validate_restock_config()
         if not valid then
-            stop_preparation("invalid", errors)
+            stop_stock_check("invalid", errors)
             return
         end
 
         rod._restock = {
-            status = "preparing",
+            status = "checking",
             needs = {},
             containers = rod.restock_destination_containers(),
             container_index = 1,
         }
     end)
 
-    path:retry("prepare restock", function(attempt, retry)
+    path:retry("check stock", function(attempt, retry)
         attempt:run(function()
             local state = rod._restock
-            if not state or state.status ~= "preparing" then
+            if not state or state.status ~= "checking" then
                 seq.stop()
                 return
             end
@@ -292,7 +317,7 @@ function rod.prepare_restock(path, timeout)
                 accept = function(event)
                     local state = rod._restock
                     return state
-                        and state.status == "preparing"
+                        and state.status == "checking"
                         and event.payload.container == state.current_container
                 end,
                 handler = function()
@@ -311,7 +336,7 @@ function rod.prepare_restock(path, timeout)
             first:after(timeout, function()
                 local state = rod._restock
                 local container = state and state.current_container or "unknown container"
-                stop_preparation(
+                stop_stock_check(
                     "timeout",
                     { "Timed out while examining '" .. container .. "'." }
                 )
@@ -321,31 +346,29 @@ function rod.prepare_restock(path, timeout)
 
     path:run(function()
         local state = rod._restock
-        if not state or state.status ~= "preparing" then
+        if not state or state.status ~= "checking" then
             return
         end
 
         state.current_container = nil
         state.needs = rod.compute_restock_needs()
-        state.status = "prepared"
-        state.prepared_at = time.monotonic()
+        state.status = "checked"
 
         local item_count, unit_count = count_needs(state.needs)
         if item_count == 0 then
             rod.echoln({
                 { text = "Already fully stocked", foreground = ansi.bright_green, bold = true },
-                "; stopping the sequence.",
+                ".",
             })
-            emit("rod.restock.prepared", {
+            emit("rod.stock.checked", {
                 needs = state.needs,
                 containers = state.containers,
             })
-            seq.stop()
             return
         end
 
         rod.echoln({
-            "Restock prepared: ",
+            "Stock check: ",
             { text = tostring(unit_count), foreground = ansi.bright_cyan, bold = true },
             " unit",
             unit_count == 1 and "" or "s",
@@ -355,7 +378,7 @@ function rod.prepare_restock(path, timeout)
             item_count == 1 and "" or "s",
             ".",
         })
-        emit("rod.restock.prepared", {
+        emit("rod.stock.checked", {
             needs = state.needs,
             containers = state.containers,
         })
@@ -388,15 +411,15 @@ local function quoted_keyword(keyword)
     return keyword
 end
 
----Append acquisition of prepared deficits from one configured source.
+---Append acquisition of checked deficits from one configured source.
 ---All commands for the source are sent together and do not wait for prompts.
 ---@param path MudmudSequencePath
 ---@param source_name string
 function rod.restock_from(path, source_name)
     path:run(function()
         local state = rod._restock
-        if not state or state.status ~= "prepared" then
-            stop_acquisition("run rod.prepare_restock first.")
+        if not state or state.status ~= "checked" then
+            stop_acquisition("run rod.check_stock first.")
             return
         end
 

@@ -93,6 +93,29 @@ function rod.wearing_item(item_name)
     return false
 end
 
+---Return whether any item in an equipment snapshot is below superb condition.
+---@param equipment? table[]
+---@return boolean needs_repair
+---@return table? item
+function rod.needs_repair(equipment)
+    equipment = equipment or rod.equipment
+    for _, entry in ipairs(equipment) do
+        if trimmed_lower(entry.condition) ~= "superb" then
+            return true, entry
+        end
+    end
+
+    return false, nil
+end
+
+---Append a fresh equipment survey to a sequence.
+---@param path MudmudSequencePath
+---@param timeout? number
+function rod.survey(path, timeout)
+    path:input("survey")
+    path:wait_event("rod.equipment.updated", { timeout = timeout or 10 })
+end
+
 function rod.equipment_slot_name(slot)
     local normalized = tostring(slot or ""):match("^%s*(.-)%s*$")
     local lower = normalized:lower()
