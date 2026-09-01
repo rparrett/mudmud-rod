@@ -83,6 +83,18 @@ function rod.wait_until_msdp_room(path, room_name, timeout)
     end)
 end
 
+---Append a server round-trip barrier to a sequence.
+---The sequence sends `rap` and continues only after RoD responds with
+---`Rap on What?`. A missing response fails after `timeout` seconds.
+---@param path MudmudSequencePath
+---@param timeout? number
+function rod.sync(path, timeout)
+    path:send("rap")
+    path:wait_regex("^Rap on What\\?$", {
+        timeout = timeout or 10,
+    })
+end
+
 local function quoted_cast_name(name)
     if name:find(" ", 1, true) then
         return "'" .. name .. "'"
