@@ -85,12 +85,12 @@ end
 
 ---Append a server round-trip barrier to a sequence.
 ---The sequence sends `rap` and continues only after RoD responds with
----`Rap on What?`. A missing response fails after `timeout` seconds.
+---`Rap on what?`. A missing response fails after `timeout` seconds.
 ---@param path MudmudSequencePath
 ---@param timeout? number
 function rod.sync(path, timeout)
     path:send("rap")
-    path:wait_regex("^Rap on What\\?$", {
+    path:wait_regex("^Rap on what\\?$", {
         timeout = timeout or 10,
     })
 end
