@@ -1,4 +1,5 @@
 local ignored_characters = {
+    -- mobs
     lucinde = true,
     blorin = true,
     jensen = true,
@@ -6,6 +7,14 @@ local ignored_characters = {
     kylara = true,
     belesdan = true,
     regis = true,
+    doris = true,
+    aegir = true,
+    marsel = true,
+    torton = true,
+    ceana = true,
+    -- bots
+    cyndl = true,
+    aen = true,
 }
 
 local function chat_color(message_type)
