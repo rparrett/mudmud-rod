@@ -33,6 +33,7 @@ else
 end
 
 rod.affects_by_name = affects
+emit("rod.affects.updated", { affects = affects })
 
 local function affect_style(name, duration)
     if name == "sanctuary" or name == "sacral divinity" or name == "nadur dion" then
