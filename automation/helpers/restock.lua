@@ -331,6 +331,19 @@ function rod.prepare_restock(path, timeout)
         state.prepared_at = time.monotonic()
 
         local item_count, unit_count = count_needs(state.needs)
+        if item_count == 0 then
+            rod.echoln({
+                { text = "Already fully stocked", foreground = ansi.bright_green, bold = true },
+                "; stopping the sequence.",
+            })
+            emit("rod.restock.prepared", {
+                needs = state.needs,
+                containers = state.containers,
+            })
+            seq.stop()
+            return
+        end
+
         rod.echoln({
             "Restock prepared: ",
             { text = tostring(unit_count), foreground = ansi.bright_cyan, bold = true },

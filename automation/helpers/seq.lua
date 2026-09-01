@@ -55,11 +55,31 @@ function rod.wait_until_fight_idle(path, timeout)
 end
 
 function rod.wait_until_msdp_room(path, room_name, timeout)
-    path:race(function(first)
-        first:event("msdp.ROOM_NAME", {
-            payload = { new_value = room_name },
-        })
-        first:after(timeout or 20)
+    timeout = timeout or 20
+
+    path:retry("wait for MSDP room " .. room_name, function(attempt, retry)
+        attempt:run(function()
+            if tostring(msdp.ROOM_NAME or "") == room_name then
+                retry:done()
+            end
+        end)
+
+        attempt:race(function(first)
+            first:event("msdp.ROOM_NAME", {
+                payload = { new_value = room_name },
+                handler = function()
+                    retry:done()
+                end,
+            })
+            first:after(timeout, function()
+                rod.echoln({
+                    { text = "MSDP room wait timed out: ", foreground = ansi.bright_yellow },
+                    { text = room_name, foreground = ansi.bright_cyan },
+                    ".",
+                })
+                retry:done()
+            end)
+        end)
     end)
 end
 
