@@ -135,9 +135,9 @@ rod.dirs = {
     ["redfernesreside"] =
     "6s,ne,2s,se,2e,s,3sw,s,4sw,4s,5se,2s,d,s,se,s,3sw,u,3w,s,sw,d,3w,3n,w,2s,2sw,2w,sw,2nw,sw,w,sw,2s,sw,tree,2e,3se,4s,3e,s,2w,open w,w",
     ["reignomadness"] =
-    "6n,3nw,w,n,4e,s,w,sw,s,sw,2s,2sw,2s,2ne,n,nw,w,2nw,w,3nw,3w,2nw,3w,s,e,3ne,se,4e,2se,3e,n,5ne,4nw,ne,e,3ne,4e,4n,3e,n,2nw,2w,4nw",                     -- (scry for down exit, go d}
+    "6n,3nw,w,n,4e,s,w,sw,s,sw,2s,2sw,2s,2ne,n,nw,w,2nw,w,3nw,3w,2nw,3w,s,e,3ne,se,4e,2se,3e,n,5ne,4nw,ne,e,3ne,4e,4n,3e,n,2nw,2w,4nw", -- (scry for down exit, go d}
     ["revcity"] = "6n,6e,se,e,2ne,e,nw,2n,2ne,w,2nw,3n,ne,n,nw,3n,2ne,n,nw,w,2nw,w,3nw,3w,2nw,3w,5nw,w,n",
-    ["scourgeotime"] = "8u,n,unlock n,open n,n,track Malsangre",                                                                                            -- (say back in time)
+    ["scourgeotime"] = "8u,n,unlock n,open n,n,track Malsangre",                                                                        -- (say back in time)
     ["seaosorrows"] = "6s,ne,2s,se,2e,s,3sw,s,2e,u,3e,3s,se,3e,s,2se,3s,sw,w,sw,d",
     ["sentinel"] = "9w,nw,nw,n,w,nw,w,nw,w,s,s",
     ["serpentinecoils"] =
@@ -374,5 +374,5 @@ rod.dirs = {
     ["scanforestoftears"] = "28w,s,8w,s,6w,5s,10w,3n,ne,e,8n,7e,2s,6e,n,e,n,e,n,3e,s,e,s,2e,n,14e,2s,4e,2s,e,se,2e",
     ["scannorthplains"] = "nw,2w,4n,e,look painting,open n,n,35w,s,5w,2s,w,s,3w,n,12w,4n,55e,s,e",
     ["scansouthernplains"] =
-    "s,2e,2s,w,n,3w,n,w,e,s,2e,s,w,e,s,e,s,w,s,w,n,w,n,s,e,s,e,2s,e,s,e,2s,2e,n,d,n,w,2n,e,2n,w,n,ne,2n,3w,2sw,se,sw,ne,nw,2ne,3e,2s,sw,s,e,2s,w,2s,e,s,up,e,n,2e,2w,n,w,n,w,2n,2e,n,2w,e,2n,e,s,5e,s,n,w,6n,2w,3n,4e,8s,2e,6n,e,2s,e,5s,e,w,d,s,w,2s,e,2s,e,2se,s,sw,ne,n,2nw,5w,3n,2w,2e,3s,4e,2n,w,2n,e,n,nw,n,e,3n,2w,2e,3s,w,s,se,u,w,s,w,3s,e,2s,4e,n,w,e,6s,w,6s,2w,2e,2n,2w,d,n,ne,e,w,n,s,sw,2s,e,w,s,w,e,2n,u,s,w,s,8n,w,3n,2w,n,3w,2n,4s,e,s,3e,3s,2w,n,6w,2s,e,2s,e,s,e,s,e,2s,e,2n,3s,w,3s,d,5n,2ne,2n,2s,2sw,2nw,n,2nw,2n,2s,2se,ne,2n,nw,n,2e"
+    "2s,2w,2n,2w,2e,2s,w,n,3w,n,w,e,s,2e,s,w,e,s,e,2s,2w,n,w,n,s,e,s,e,2s,e,s,2e,n,e,2n,2s,w,2s,w,s,2e,n,d,n,w,2n,e,2n,w,n,ne,2n,3w,2sw,se,sw,ne,nw,2ne,3e,2s,sw,s,e,2s,w,2s,e,s,u,e,n,e,2n,w,2n,e,n,e,n,2e,s,7n,2w,3n,4e,8s,2e,6n,e,2s,e,5s,d,s,w,2s,e,2s,4w,3n,2w,2e,3s,5e,2se,s,sw,ne,n,2nw,w,2n,w,2n,e,n,nw,n,e,3n,2w,2e,3s,w,s,se,u,s,e,w,s,2w,3s,e,s,4e,n,w,e,6s,w,6s,2w,2e,2n,2w,d,2s,w,e,n,e,w,2n,ne,n,s,e,w,sw,s,u,s,w,s,9n,w,n,2w,3n,2w,n,2s,w,3s,4e,5s,2w,3n,6w,s,e,4s,3e,3s,e,w,4s,d,5n,2ne,2n,2s,2sw,2nw,n,2nw,2n,2s,2se,ne,2n,nw,n,2e"
 }
