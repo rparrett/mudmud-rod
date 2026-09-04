@@ -54,6 +54,20 @@ local MudmudPack = {}
 ---@nodiscard
 function MudmudPack.asset(pack_id, path) end
 
+---@class MudmudAutomation
+local MudmudAutomation = {}
+
+---Recompile and reinitialize every active automation in one enabled pack.
+---The operation is deferred until the current Lua callback returns. It uses Mudmud's currently
+---loaded pack snapshot and does not fetch or reread pack source.
+---@param pack_id string
+function MudmudAutomation.reload_pack(pack_id) end
+
+---Replace this profile's complete Lua runtime without reconnecting.
+---The operation is deferred until the current Lua callback returns. Statements after this call
+---still execute in the old runtime; the new runtime later emits system.activated.
+function MudmudAutomation.reset() end
+
 ---@class MudmudAudioPlayOptions
 ---@field volume? number Playback volume from 0 through 1. Defaults to 1.
 
@@ -82,6 +96,7 @@ local MudmudTts = {}
 
 ---Speak text with the operating system's configured voice.
 ---Returns whether a supported frontend accepted the request, not whether speech completed.
+---Returns false without acting when system speech is unsupported by the frontend.
 ---@param text string
 ---@param options? MudmudTtsSpeakOptions
 ---@return boolean accepted
@@ -93,6 +108,57 @@ function MudmudTts.speak(text, options) end
 ---@return boolean accepted
 ---@nodiscard
 function MudmudTts.stop() end
+
+---@class MudmudHttpRequestOptions
+---@field url string Absolute HTTP or HTTPS URL.
+---@field method? string HTTP method. Defaults to GET.
+---@field headers? table<string, string> Request header names and binary-safe values.
+---@field body? string Binary-safe request body, limited to 8 MiB.
+---@field timeout? number Total timeout in seconds, greater than 0 and at most 300. Defaults to 30.
+---@field max_response_bytes? integer Response body limit from 1 byte through 32 MiB. Defaults to 4 MiB.
+
+---@class MudmudHttpResponse
+---@field status integer HTTP response status, including non-2xx statuses.
+---@field url string Final URL after redirects.
+---@field version "HTTP/0.9"|"HTTP/1.0"|"HTTP/1.1"|"HTTP/2"|"HTTP/3"|"unknown"
+---@field headers table<string, string[]> Lowercase names with arrays preserving repeated binary-safe values.
+---@field body string Binary-safe response body.
+
+---@alias MudmudHttpErrorKind
+---| "cancelled"
+---| "timeout"
+---| "connect"
+---| "redirect"
+---| "body_too_large"
+---| "busy"
+---| "request"
+---| "body"
+---| "internal"
+
+---@class MudmudHttpError
+---@field kind MudmudHttpErrorKind Stable error category.
+---@field message string Safe diagnostic without request secrets.
+
+---@class MudmudHttpRequest
+local MudmudHttpRequest = {}
+
+---Cancel this request if it is still active. Repeated calls are harmless.
+---If cancellation wins the completion race, a registered callback receives a cancelled error.
+function MudmudHttpRequest:cancel() end
+
+---@class MudmudHttp
+local MudmudHttp = {}
+
+---Start an asynchronous HTTP request and return immediately.
+---Completed HTTP statuses, including 4xx and 5xx, call callback(response, nil). Transport,
+---timeout, limit, and cancellation failures call callback(nil, error). The callback runs at most
+---once on this profile's automation worker. Without a callback, response bodies and errors are
+---discarded after headers arrive.
+---@param options MudmudHttpRequestOptions
+---@param callback? fun(response: MudmudHttpResponse?, error: MudmudHttpError?)
+---@return MudmudHttpRequest
+---@nodiscard
+function MudmudHttp.request(options, callback) end
 
 ---@class MudmudTerminalLayoutNodePresentation
 ---@field cols? integer Fixed width in terminal columns. Valid on one direct child of a columns split, from 1 through 1000.
@@ -517,11 +583,17 @@ screen = {}
 ---@type MudmudPack
 pack = {}
 
+---@type MudmudAutomation
+automation = {}
+
 ---@type MudmudAudio
 audio = {}
 
 ---@type MudmudTts
 tts = {}
+
+---@type MudmudHttp
+http = {}
 
 ---Headless-only lifecycle controls. This global is nil in graphical frontends.
 ---@type MudmudHeadless|nil
