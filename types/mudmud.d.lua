@@ -39,7 +39,7 @@
 ---@field align? MudmudRichTextAlign Alignment within width. Defaults to left.
 
 ---@alias MudmudPlatform "ios"|"macos"|"windows"|"linux"|"android"|"unknown"
----@alias MudmudCapability "screen_layout"|"audio"|"tts"
+---@alias MudmudCapability "screen_layout"|"audio"|"tts"|"process"
 
 ---@class MudmudPackAsset
 
@@ -159,6 +159,58 @@ local MudmudHttp = {}
 ---@return MudmudHttpRequest
 ---@nodiscard
 function MudmudHttp.request(options, callback) end
+
+---@class MudmudProcessOptions
+---@field program string Bare executable name using native platform resolution, or an absolute path.
+---@field args? string[] Literal ordered arguments.
+---@field cwd? string Absolute working directory.
+---@field env? table<string, string> Environment additions or replacements.
+---@field inherit_env? boolean Inherit Mudmud's environment before applying env. Defaults to true.
+---@field stdin? string Binary-safe standard input, limited to 8 MiB.
+---@field timeout? number Total runtime in seconds, greater than 0 and at most 3600. Defaults to 30.
+---@field max_output_bytes? integer Combined stdout/stderr limit from 1 byte through 32 MiB. Defaults to 4 MiB.
+
+---@class MudmudProcessResult
+---@field success boolean True when the platform exit status reports success.
+---@field code integer? Portable numeric exit code, or nil when none is available.
+---@field stdout string Binary-safe captured standard output.
+---@field stderr string Binary-safe captured standard error.
+
+---@alias MudmudProcessErrorKind
+---| "cancelled"
+---| "timeout"
+---| "output_too_large"
+---| "busy"
+---| "spawn"
+---| "stdin"
+---| "output"
+---| "wait"
+---| "internal"
+
+---@class MudmudProcessError
+---@field kind MudmudProcessErrorKind Stable error category.
+---@field message string Safe diagnostic without arguments, input, or environment values.
+
+---@class MudmudProcessHandle
+local MudmudProcessHandle = {}
+
+---Cancel this process if it is still active. Repeated calls are harmless.
+---If cancellation wins the completion race, a registered callback receives a cancelled error.
+function MudmudProcessHandle:cancel() end
+
+---@class MudmudProcess
+local MudmudProcess = {}
+
+---Start an operating-system program asynchronously and return immediately.
+---No shell is involved: program and each argument are passed separately. A process that exits,
+---including with a nonzero code, calls callback(result, nil). Spawn, I/O, timeout, limit, and
+---cancellation failures call callback(nil, error). Without a callback, output and failures are
+---discarded. Raises an error when OS command execution is disabled or unsupported.
+---@param options MudmudProcessOptions
+---@param callback? fun(result: MudmudProcessResult?, error: MudmudProcessError?)
+---@return MudmudProcessHandle
+---@nodiscard
+function MudmudProcess.run(options, callback) end
 
 ---@class MudmudTerminalLayoutNodePresentation
 ---@field cols? integer Fixed width in terminal columns. Valid on one direct child of a columns split, from 1 through 1000.
@@ -594,6 +646,9 @@ tts = {}
 
 ---@type MudmudHttp
 http = {}
+
+---@type MudmudProcess
+process = {}
 
 ---Headless-only lifecycle controls. This global is nil in graphical frontends.
 ---@type MudmudHeadless|nil
