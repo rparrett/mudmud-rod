@@ -1,0 +1,11 @@
+(
+    name: Some("Upgrade old prompt"),
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "^.*$",
+        case_insensitive: false,
+        pass_through: false,
+        prompt: true,
+    )),
+)

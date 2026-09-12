@@ -3,8 +3,9 @@
     kind: Line((
         source: ServerLine,
         kind: Regex,
-        pattern: "<.+>",
+        pattern: "^(?<indicator>[~!])(?<version>\\d+) \\[(?<hp>[\\d,]+)\\/(?<max_hp>[\\d,]+)hp(?: (?:(?<mana>[\\d,]+)\\/(?<max_mana>[\\d,]+)mp|(?<blood>[\\d,]+)\\/(?<max_blood>[\\d,]+)bp))? (?<mv>[\\d,]+)\\/(?<max_mv>[\\d,]+)mv(?: (?<xp>[\\d,]+)xp)?\\] \\[(?<area>[^\\]]+)\\] \\[(?<wait>[| ]*)\\] $",
         case_insensitive: false,
         pass_through: false,
+        prompt: true,
     )),
 )
