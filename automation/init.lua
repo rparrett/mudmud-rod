@@ -35,11 +35,17 @@ if rod.settings.sanckw == nil then rod.settings.sanckw = "sanctuary" end
 if rod.settings.quaff == nil then rod.settings.quaff = true end
 if rod.settings.quaffkw == nil then rod.settings.quaffkw = "maroon" end
 if rod.settings.quaffthresh == nil then rod.settings.quaffthresh = 20 end
+if rod.settings.quaffamt == nil then rod.settings.quaffamt = 100 end
+if rod.settings.equaffkw == nil then rod.settings.equaffkw = "" end
+if rod.settings.equaffthresh == nil then rod.settings.equaffthresh = 9999 end
 if rod.settings.quaffsperdrink == nil then rod.settings.quaffsperdrink = 8 end
 if rod.settings.springkw == nil then rod.settings.springkw = "mystical" end
 if rod.settings.mquaff == nil then rod.settings.mquaff = true end
 if rod.settings.mquaffkw == nil then rod.settings.mquaffkw = "blue" end
 if rod.settings.mquaffthresh == nil then rod.settings.mquaffthresh = 100 end
+if rod.settings.truesight == nil then rod.settings.truesight = false end
+if rod.settings.truesightkw == nil then rod.settings.truesightkw = "true" end
+if rod.settings.blindkw == nil then rod.settings.blindkw = "cure-blindness" end
 if rod.settings.attack == nil then rod.settings.attack = "strike" end
 if rod.settings.scankw == nil then rod.settings.scankw = "" end
 if rod.settings.autoloot == nil then rod.settings.autoloot = true end
