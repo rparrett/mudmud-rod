@@ -1,3 +1,5 @@
+rod._game_entered = false
+
 echoln({
     "\n[",
     {

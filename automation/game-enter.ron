@@ -1,0 +1,13 @@
+(
+    name: Some("Detect game entry"),
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        patterns: [
+            "^You were last online on:",
+            "^Reconnecting\\.$",
+        ],
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)
