@@ -1,0 +1,10 @@
+(
+    name: Some("Begin inventory snapshot"),
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "^You are carrying (?<used>\\d+) items and have room for (?<remaining>\\d+) more:$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)

@@ -1,0 +1,12 @@
+(
+    name: Some("Track room mob"),
+    priority: 6,
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "^(?:\\([^)]*\\) )*(?<item>.+?)(?: \\((?<quantity>\\d+)\\))?$",
+        case_insensitive: false,
+        foreground: Some(Ansi256(13)),
+        pass_through: false,
+    )),
+)

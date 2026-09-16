@@ -1,0 +1,11 @@
+(
+    name: Some("Track room object"),
+    priority: 6,
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "^(?:\\([^)]*\\) )*(?<item>.+?)(?: \\((?<quantity>\\d+)\\))?$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)

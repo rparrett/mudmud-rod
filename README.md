@@ -112,6 +112,24 @@ Add maximum AC values for unrecognized armor in profile Lua when needed:
 rod.equipment_ac["a custom breastplate"] = 20
 ```
 
+### Room and inventory snapshots
+
+Each completed room display leaves its current exits, bright-magenta mobs, and other displayed
+contents available in `rod.room.exits`, `rod.room.mobs`, and `rod.room.other`. The same values are
+included in the `rod.room` event payload.
+
+Running `inventory` replaces `rod.inventory` at the following prompt and emits
+`rod.inventory.updated`. Item names are exact and quantities default to one when RoD does not show
+a count. Helpers are available for both top-level inventory and examined configured containers:
+
+```lua
+rod.inventory_item_count("a solomonic crucifix")
+rod.has_inventory_item("a solomonic crucifix", 2)
+
+rod.container_item_count("a glowing maroon potion", "potion")
+rod.has_container_item("a glowing maroon potion", 20, "potion")
+```
+
 ### Scheduled reconnects
 
 Scheduled reconnects use an offline-capable timer and do not occupy the sequencer. The optional

@@ -1,0 +1,11 @@
+(
+    name: Some("Track inventory item"),
+    priority: 6,
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: "^\\s{5}(?:\\([^)]*\\)\\s+)*(?<item>[^()].*?)(?:\\s+\\((?<quantity>\\d+)\\))?\\s*$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)
