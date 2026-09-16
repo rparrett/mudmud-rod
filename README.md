@@ -111,3 +111,18 @@ Add maximum AC values for unrecognized armor in profile Lua when needed:
 ```lua
 rod.equipment_ac["a custom breastplate"] = 20
 ```
+
+### Scheduled reconnects
+
+Scheduled reconnects use an offline-capable timer and do not occupy the sequencer. The optional
+callback runs once after mudmud-rod detects that the character has entered the game again:
+
+```lua
+rod.schedule_reconnect(30 * 60, function()
+    input("visage")
+end)
+```
+
+Use `rod.cancel_scheduled_reconnect()` to cancel the pending reconnect and callback. It returns
+`true` when there was something to cancel. `rod.scheduled_reconnect_in()` returns the remaining
+delay in seconds, or `nil` when no reconnect is scheduled.

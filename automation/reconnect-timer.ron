@@ -1,0 +1,7 @@
+(
+    name: Some("Run scheduled reconnects"),
+    kind: Timer((
+        interval_ms: 1000,
+        run_while_disconnected: true,
+    )),
+)
