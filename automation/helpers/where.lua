@@ -3,7 +3,7 @@
 ---@param allowed? table<string, boolean>
 ---@return boolean found
 ---@return table? player
-function rod.any_unallowed_player_in_area(allowed)
+function rod.other_player_in_area(allowed)
     allowed = allowed or {}
     local character_name = tostring(msdp.CHARACTER_NAME or "")
 
@@ -14,8 +14,4 @@ function rod.any_unallowed_player_in_area(allowed)
     end
 
     return false, nil
-end
-
-function rod.any_player_in_area()
-    return rod.any_unallowed_player_in_area()
 end
