@@ -77,6 +77,16 @@ rod.settings.attack = "circle"
 rod.settings.scankw = "dragon"
 ```
 
+Chat notifications are delivered by posting plain text to an
+[ntfy.sh](https://ntfy.sh/) topic URL. Configure the topic before enabling either notification
+type:
+
+```text
+set ntfyurl https://ntfy.sh/your-private-topic
+set notifytells on
+set notifyyells on
+```
+
 The `autoloot` setting can be toggled with `set autoloot on` and `set autoloot off`. Its item mapping
 is separate configuration and must be managed in profile Lua. `rod.auto_loot` keys are exact
 revealed item names. Values name entries in `rod.containers`; use an empty string to get an item

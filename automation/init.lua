@@ -48,6 +48,9 @@ if rod.settings.truesightkw == nil then rod.settings.truesightkw = "true" end
 if rod.settings.blindkw == nil then rod.settings.blindkw = "cure-blindness" end
 if rod.settings.attack == nil then rod.settings.attack = "strike" end
 if rod.settings.scankw == nil then rod.settings.scankw = "" end
+if rod.settings.notifytells == nil then rod.settings.notifytells = false end
+if rod.settings.notifyyells == nil then rod.settings.notifyyells = false end
+if rod.settings.ntfyurl == nil then rod.settings.ntfyurl = "" end
 if rod.settings.autoloot == nil then rod.settings.autoloot = true end
 if rod.settings.eqstrip == nil then rod.settings.eqstrip = true end
 if rod.settings.eqstripthresh == nil then rod.settings.eqstripthresh = 4 end
