@@ -1,0 +1,6 @@
+(
+    name: Some("Detect full health"),
+    kind: Event((
+        event_names: ["msdp.HEALTH"],
+    )),
+)
