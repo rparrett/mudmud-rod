@@ -1,4 +1,4 @@
-local prompt_version = "11"
+local prompt_version = "12"
 
 if line:match("^[~!]" .. prompt_version .. " ") then
     return
@@ -42,7 +42,7 @@ local function build_prompt(indicator)
     table.insert(parts, " &G%v/%Vmv")
 
     if level <= 49 then
-        table.insert(parts, " &P%xxp")
+        table.insert(parts, " &P%Xxp")
     end
 
     table.insert(parts, "&z] ")
