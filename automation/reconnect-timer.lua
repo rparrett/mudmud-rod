@@ -8,6 +8,7 @@ end
 -- off to the game-entry trigger.
 rod._scheduled_reconnect = nil
 rod._reconnect_after_enter = scheduled.callback
+rod._scheduled_reconnect_connecting = true
 
 rod.echoln("Reconnecting now.")
 connection.reconnect()

@@ -1,5 +1,6 @@
 rod._scheduled_reconnect = rod._scheduled_reconnect or nil
 rod._reconnect_after_enter = rod._reconnect_after_enter or nil
+rod._scheduled_reconnect_connecting = rod._scheduled_reconnect_connecting or false
 
 local function format_delay(seconds)
     local whole_seconds = math.floor(seconds)
@@ -20,9 +21,12 @@ end
 ---Cancel a pending reconnect and any callback waiting for the next game entry.
 ---@return boolean canceled Whether anything was canceled.
 function rod.cancel_scheduled_reconnect()
-    local canceled = rod._scheduled_reconnect ~= nil or rod._reconnect_after_enter ~= nil
+    local canceled = rod._scheduled_reconnect ~= nil
+        or rod._reconnect_after_enter ~= nil
+        or rod._scheduled_reconnect_connecting
     rod._scheduled_reconnect = nil
     rod._reconnect_after_enter = nil
+    rod._scheduled_reconnect_connecting = false
     return canceled
 end
 
@@ -53,6 +57,11 @@ function rod.schedule_reconnect(delay_seconds, post_connect_callback)
     rod.echoln({
         "Reconnect scheduled in ",
         { text = format_delay(delay_seconds), foreground = ansi.bright_cyan },
+        ". Cancel with ",
+        {
+            text = "lua rod.cancel_scheduled_reconnect()",
+            foreground = ansi.bright_cyan,
+        },
         ".",
     })
 end

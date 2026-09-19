@@ -143,4 +143,6 @@ end)
 
 Use `rod.cancel_scheduled_reconnect()` to cancel the pending reconnect and callback. It returns
 `true` when there was something to cancel. `rod.scheduled_reconnect_in()` returns the remaining
-delay in seconds, or `nil` when no reconnect is scheduled.
+delay in seconds, or `nil` when no reconnect is scheduled. Establishing a connection manually
+before the timer fires also cancels both the scheduled reconnect and its callback. A connection
+initiated by the scheduled reconnect itself preserves the callback until `rod.game.enter`.
