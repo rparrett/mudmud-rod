@@ -1,0 +1,10 @@
+(
+    name: Some("Recover a disarmed weapon"),
+    kind: Line((
+        source: ServerLine,
+        kind: Regex,
+        pattern: " DISARMS your (?<weapon>.+?)!$",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)
