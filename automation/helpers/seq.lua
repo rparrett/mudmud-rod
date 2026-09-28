@@ -233,15 +233,38 @@ function rod.cast(path, spell, options)
 end
 
 function rod.scan_all(path, timeout)
-    path:input("scan all")
-    path:wait_event("rod.scan", {
-        timeout = timeout or 10,
-        handler = function(scan_event)
-            if scan_event.payload.found then
-                seq.pause()
-            end
-        end,
-    })
+    timeout = timeout or 10
+
+    path:retry("scan all", function(attempt, retry)
+        attempt:input("scan all")
+
+        attempt:race(function(first)
+            first:event("rod.scan", {
+                handler = function(scan_event)
+                    if scan_event.payload.found then
+                        seq.pause()
+                    end
+                    retry:done()
+                end,
+            })
+
+            first:line("No way!  You are still fighting!", function()
+                rod.echoln("Scan blocked by combat; waiting to retry.")
+            end)
+
+            first:after(timeout, function()
+                rod.echoln("Scan response timed out; retrying.")
+                retry:again()
+            end)
+        end)
+
+        -- This is reached only when combat blocked the scan. Retry when the
+        -- fight ends, or after a short delay in case no fight was tracked.
+        attempt:race(function(first)
+            first:event("rod.fight.end")
+            first:after(3)
+        end)
+    end)
 end
 
 local function await_discovery(path, command, event_name, operation, timeout)
