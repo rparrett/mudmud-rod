@@ -130,6 +130,30 @@ rod.container_item_count("a glowing maroon potion", "potion")
 rod.has_container_item("a glowing maroon potion", 20, "potion")
 ```
 
+### Resource helpers
+
+Use `rod.resources_at_least` for an immediate health and mana check. All supplied minimums must
+be met:
+
+```lua
+rod.resources_at_least({ health_percent = 100, mana = 250 })
+```
+
+Sequence code can wait for the same condition without checking each resource separately:
+
+```lua
+rod.wait_until_resources(path, {
+    health_percent = 100,
+    mana = 250,
+}, 1200, function()
+    seq.stop()
+end)
+```
+
+The supported keys are `health`, `health_percent`, `mana`, and `mana_percent`. A timeout is a
+normal outcome; the optional callback runs before the enclosing sequence continues and may stop
+the sequence when continuing would be unsafe.
+
 ### Scheduled reconnects
 
 Scheduled reconnects use an offline-capable timer and do not occupy the sequencer. The optional

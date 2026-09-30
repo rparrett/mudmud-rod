@@ -157,10 +157,4 @@ function rod.update_character_status()
     rod.set_status_section("character", display)
 end
 
-function rod.is_full_health()
-    local health = tonumber(msdp.HEALTH)
-    local health_max = tonumber(msdp.HEALTH_MAX)
-    return health ~= nil and health_max ~= nil and health_max > 0 and health >= health_max
-end
-
 rod.update_character_status()

@@ -83,6 +83,68 @@ function rod.wait_until_msdp_room(path, room_name, timeout)
     end)
 end
 
+---Wait until all requested health and mana thresholds are satisfied together.
+---Absolute thresholds use `health` and `mana`; percentage thresholds use
+---`health_percent` and `mana_percent`. If `timeout` is provided, timing out is
+---a normal outcome: `on_timeout` is called when present, and the sequence may
+---continue unless the callback stops it.
+---@param path MudmudSequencePath
+---@param thresholds { health?: number, health_percent?: number, mana?: number, mana_percent?: number }
+---@param timeout? number
+---@param on_timeout? fun()
+function rod.wait_until_resources(path, thresholds, timeout, on_timeout)
+    -- Validate once while the sequence is being built.
+    rod.resources_at_least(thresholds)
+
+    local requirements = {
+        health = thresholds.health,
+        health_percent = thresholds.health_percent,
+        mana = thresholds.mana,
+        mana_percent = thresholds.mana_percent,
+    }
+    local watches_health = requirements.health ~= nil or requirements.health_percent ~= nil
+    local watches_mana = requirements.mana ~= nil or requirements.mana_percent ~= nil
+
+    local function ready()
+        return rod.resources_at_least(requirements)
+    end
+
+    path:retry("wait until resources ready", function(attempt, retry)
+        attempt:run(function()
+            if ready() then
+                retry:done()
+            end
+        end)
+
+        attempt:race(function(first)
+            local wait_options = {
+                accept = function()
+                    return ready()
+                end,
+                handler = function()
+                    retry:done()
+                end,
+            }
+
+            if watches_health then
+                first:event("msdp.HEALTH", wait_options)
+            end
+            if watches_mana then
+                first:event("msdp.MANA", wait_options)
+            end
+
+            if timeout ~= nil then
+                first:after(timeout, function()
+                    retry:done()
+                    if on_timeout then
+                        on_timeout()
+                    end
+                end)
+            end
+        end)
+    end)
+end
+
 ---Append a server round-trip barrier to a sequence.
 ---The sequence sends `rap` and continues only after RoD responds with
 ---`Rap on what?`. A missing response fails after `timeout` seconds.
