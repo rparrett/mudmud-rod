@@ -26,7 +26,7 @@ if supports("screen_layout") then
                 first = {
                     buffer = "main",
                 },
-                second = chat_pane(8),
+                second = chat_pane(5),
             },
         })
     else
