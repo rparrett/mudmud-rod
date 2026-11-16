@@ -37,8 +37,10 @@ rod.dirs = {
     ["daichaal"] = "6s,ne,2s,se,2e,s,3sw,s,4sw,3s,5se,3s,d,s,se,s,3se,e,3s,ne,e,s,2se,3e,2se,3e,se",
     ["dawn2dusk"] = "7w,sw,s,w,sw,sw,s,w,w,se,w,w,w,sw,se,sw,se,sw,sw,se,s,s,sw,s,sw,s,se,s,sw,s,s,sw,s,sw,s,s,s,sw,n",
     ["desertodespair"] = "8e,se,se,s,4se,s,s,sw,w,sw,s,s,3se",
+    ["desertodespair2room1"] = "sw,s,2sw,s,se,sw,2se,sw,2se,e,se,s,sw,w,sw,nw,w,2nw,w",
     ["dragoncult"] = "4s,e,n,say idolizer of dragons",
     ["dragontower"] = "6s,ne,s,s,se,e,e,s,sw,sw,s,10sw,w,u,s,e,e,se,se,s,s,sw,nw,nw,3w,sw,w,sw,se,sw",
+    ["dragontowerfrontdoor"] = "6s,ne,2s,se,2e,s,2sw,s,5sw,nw,5n,ne,n,e,2se,e,s,se,sw,4s,2sw,s,se,2w,nw,sw,2n,sw,w,2sw,n,nw,n,ne,n,w,ne,n,ne,e,nw,n,nw,9n",
     ["dragonspass"] = "6s,ne,s,s,se,e,e,s,sw,sw,s,5sw,nw,5n,ne,n,e,se,se",
     ["dragontailglen"] = "nw,2w,4n,e,look painting,open n,n,28w,2s,w,sw,2s,4w,2nw,3w,5sw,n,d,2w,2n,3w,2n",
     ["outsidedragontailglen"] = "nw,2w,4n,e,look painting,open n,n,28w,2s,w,sw,2s,4w,2nw,3w,5sw,n,d,2w,2n,3w,n",
@@ -62,6 +64,7 @@ rod.dirs = {
     ["fromthestars"] = "nw,w,w,4n,e,l painting,open n,n,n,w,w,n,37w,n,e",
     ["galaxy"] = "4s, w, 2n, give 5k coins rec, unl n, op n, 3n, ne, n, enter",
     ["glimwinkles"] = "13e,3s,3e,2ne,3se,e,s,e",
+    ["gnarlwood"] = "6n,3nw,w,n,4e,s,w,sw,s,sw,2s,e,2se,2e,n",
     ["graveyard"] = "9w,sw,4w,s,sw,w,w,open s,s",
     ["greateastdesert"] = "8e,se,se,s,4se,s,s,sw,w,sw,s,s,3se,sw,w,w,sw,s,s,e",
     ["greenforest"] = "6n,6w,nw",
@@ -78,6 +81,7 @@ rod.dirs = {
     ["mahntorkeep"] = "4s,w,2 n,give 5k coins receptionist,unlock n,open n,3 n,ne,n,ne,n,enter,d,e,n",
     ["mahntorvillage"] =
     "6n,3nw,w,n,4e,s,w,sw,s,sw,s,s,sw,sw,s,s,ne,ne,n,nw,w,nw,nw,w,3nw,3w,se,w,sw,w,u,nw,3w,3nw,3w,sw",
+    ["midgaard"] = "#41 w;#7 n;w;w;n;u",
     ["kingscastle"] = "13e,3s,3e,ne,ne,3se,e,s,s,sw,s,se,s,se,e,e,ne,ne,e",
     ["kingdomojuargan"] =
     "6n,3nw,w,n,4e,s,w,sw,nw,n,ne,u,ne,ne,u,ne,u,ne,nw,w,u,ne,ne,u,w,u,ne,w,4sw,4w,d,nw,nw,sw,u,4w,u,w,w,n,e,e",
@@ -98,6 +102,8 @@ rod.dirs = {
     ["mausoleum"] = "13s,2e,u,u,e,se,se,se,d,s,se,e,se,e,n,nw,pull branch,push branch,n",
     ["midennir"] = "7s",
     ["mire"] = "6s,ne,2s,se,2e,s,3sw,s,10sw,w,u,s,2e,2se,2s,sw",
+    -- scrag subarea of the mire
+    ["blackpoolbog"] = "6s,ne,2s,se,2e,s,3sw,s,10sw,w,u,s,2e,2se,2s,sw,2nw,3w,sw,w,4sw,4s,se,s,sw,s,sw,s,w,sw,3s,sw,2s,3e,se,e,se,e,se,3e,3ne,e,ne,e,ne,2e,se,3ne,se,2s",
     -- 47 steps, crashing waters
     ["mithrilhall"] = "6s,ne,2s,se,2e,s,3sw,u,nw,ne,2w,sw,3s,2se,sw,2u,w,nw,4w,n,open passage,n,e,n,n,w,d,e,e,n",
     -- 72 steps, no crashing waters, invis
@@ -201,6 +207,11 @@ rod.dirs = {
     ["wolfden"] = "6n,3nw,n,n,nw,nw,n,ne,n,ne,n,n,ne,ne,n,e",
     ["wyvernstower"] = "6n,3nw,w,n,4e,s,w,sw,s,sw,s,s,sw,3w,ne",
     ["ziggurat"] = "6s,ne,2s,se,2e,s,3sw,s,2e,u,3e,3s,se,3e,s,2se,3s,sw,w,sw,d,nw,s,2e,2se,w,nw,sw,w,s",
+
+    -- Sewers
+
+    ["sewers_wastelands"] = "6s,ne,2s,se,2e,s,2sw,s,4sw,4s,2sw,s,2sw,s,sw,2s,w,sw,s,2sw,s,w,2s,sw,s,sw,se,e,ne,open wall,n",
+    ["sewers_transylvania"] = "13s, 2e, 2u, e, 3se, d, s, 4se, e, se, e, ne, nw, n, u, 3n, 3w, n, e, open d, d",
 
     -- DAG paintings
 
@@ -312,6 +323,8 @@ rod.dirs = {
     ["davyjones"] = "6s,ne,2s,se,2e,s,3sw,s,2e,u,3e,ne,3e,s,se,s,2e,s,2e,plunge,4n,3e",
     ["crabguards"] = "6s,ne,2s,se,2e,s,3sw,s,2e,u,3e,ne,3e,s,se,s,2e,s,2e,plunge,3s,se,s,3d,2s,2e,s,2e,n",
 
+    ["cursedlands2jedhian"] = "e,s,w,3s,w,s,sw,s,2d",
+
     -- mithril hall to gold farm (garumn's gorge) (shimmergloom priests)
     ["garumn"] =
     "6s,ne,2s,se,2e,s,3sw,u,nw,ne,2w,sw,3s,2se,sw,2u,w,nw,4w,n,open passage,n,e,n,n,w,d,e,e,n,3n,e,3n,2e,n,2w,d,e,2s,2d,e",
@@ -356,12 +369,27 @@ rod.dirs = {
     -- vampire lord, hexed lowbie gear
     ["teaparty"] = "4s,w,2n,give 5k coins receptionist,unlock n,open n,2n,w,nw,w,nw,w,enter",
 
+    -- single room, aff fly "kite" lowbie item
+    ["meadow"] = "4s,w,2n,give 5000 coin recep,unlock n,open n,n,drop key,n,e,ne,enter",
+    -- gunwale (fisherman)
+    ["sharkalley"] = "4s,w,2n,give 5k coins receptionist,unlock n,open n,n,drop key,2n,nw,n,enter",
+    -- massive owlbear claw (track owlbear)
+    ["moonlistforst"] = "4s,w,2n,give 5k coins receptionist,unlock n,open n,n,drop key,2n,ne,n,ne,enter",
+    -- two knights, greatsword
+    ["beaumontheath"] = "4s,w,2n,give 5k coins receptionist,unlock n,open n,n,drop key,n,w,sw,w,sw,w,enter",
+    -- one room, some cat mobs
+    ["catandmouse"] = "4s,w,2n,give 5k coins receptionist,unlock n,open n,n,drop key,n,w,nw,w,enter",
+    -- billy goats, troll
+    ["chevreparadis"] = "4s,w,2n,give 5k coins receptionist,unlock n,open n,n,drop key,n,e,ne,e,se,e,ne,enter",
+
     -- Runs?
 
     ["smtr"] =
     "6s,ne,2s,se,2e,s,3sw,s,5sw,nw,n,2ne,e,2ne,e,n,ne,3n,ne,n,nw,3n,nw,n,2nw,n,nw,w,nw,2w,sw,w,nw,w,sw,sw,se,2s,sw,s,sw,s,se,e,ne,se,s,se,e,n",
     ["rothgorn"] =
     "8w,sw,s,2sw,s,2w,2sw,w,se,sw,se,sw,se,2sw,se,2s,sw,s,sw,s,se,s,sw,2s,sw,e,2e,g black-dagger-hideout-key,un d,op d,dro black-dagger-hideout-key,4d,e,push flame,e,pull flame,3e,exam orb,w,g gold-key,un w,op w,dro gold-key,w,g ruby-key,un w,op w,dro ruby-key,w,g black-key,un w,op w,dro black-key",
+    ["rylan"] = "8w,sw,s,2sw,s,2w,2sw,w,se,sw,se,sw,se,2sw,se,2s,sw,s,sw,s,se,s,sw,2s,sw,e,2e,g black-dagger-hideout-key,un d,op d,dro black-dagger-hideout-key,4d,sw,exam shadows,n",
+    ["rylan2ellara"] = "s,exam shadows,exam gold,exam huntress,n,g golden-key,un w,dro golden-key,op w",
     ["froghemoth"] = "13e,3s,3e,se,s,se,e,nw,e,sw,se,e,sw,s,se,sw,sw,sw,w,sw,nw,ne,e,ne,nw,ne",
     ["skeletonpriest"] = "4s,w,n,n,give 5000 coin recep,unlock n,open n,n,drop key,2n,ne,n,ne,n,nw,n,enter,ne,u,n,u,nw",
 

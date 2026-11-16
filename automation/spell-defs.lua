@@ -422,6 +422,11 @@ rod.spells = {
             target("^You dispel the curses afflicting {{target}}\\.$"),
         },
     },
+    identify = {
+        complete = {
+            "^Object '.+' is infused with your magic\\.\\.\\.$",
+        },
+    },
     falcon = {
         complete = {
             self("^Your eyes blur as they change focus to sense hidden forms\\.$"),

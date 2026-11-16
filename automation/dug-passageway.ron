@@ -1,0 +1,10 @@
+(
+    name: Some("Complete passageway digging"),
+    kind: Line((
+        source: ServerLine,
+        kind: Plaintext,
+        pattern: "You dig open a passageway!",
+        case_insensitive: false,
+        pass_through: false,
+    )),
+)

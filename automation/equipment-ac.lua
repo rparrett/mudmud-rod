@@ -82,4 +82,8 @@ rod.equipment_ac = {
     ["the Blackened Legplates of the Daemon Lord"] = 15,
     ["Golden Plate"] = 16,
     ["the Ring of Wizardry"] = 12,
+    ["Coils of Dragonfire"] = 10,
+    ["the defiled cloak of the furies"] = 20,
+    ["a spiked leather wristguard"] = 15,
+    ["the illusion of innocence"] = 12,
 }
